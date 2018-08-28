@@ -1,0 +1,3 @@
+# ignore all node modules
+npm-debug.log
+node_modules/*

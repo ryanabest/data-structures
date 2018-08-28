@@ -1,0 +1,25 @@
+{
+  "name": "data-structures",
+  "version": "1.0.0",
+  "description": "data-structures fall 2018",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanabest/data-structures.git"
+  },
+  "author": "ryanabest",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanabest/data-structures/issues"
+  },
+  "homepage": "https://github.com/ryanabest/data-structures#readme",
+  "dependencies": {
+    "browser-sync": "^2.24.7",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1"
+  }
+}
