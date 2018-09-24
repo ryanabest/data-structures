@@ -52,20 +52,20 @@ scheduleTable.children().each(function(i,child) {
     if (eventList[e].substring(0,10) === '<b>Meeting') {
       eventTypes.push({
          event_number : eventNumber
-        ,event_id     : (i*10) + eventNumber
+        ,event_id     : (i*100) + eventNumber
         ,event_type   : cleanText(eventList[e].replace('<b>Meeting Type</b>',''))
       });
     } else if (eventList[e].substring(0,10) === '<b>Special') {
       eventSpecials.push({
          event_number : eventNumber
-        ,event_id     : (i*10) + eventNumber
+        ,event_id     : (i*100) + eventNumber
         ,special_interest : cleanText(eventList[e].replace('<b>Special Interest</b>',''))
       });
     } else {
       eventNumber++;
       eventTimes.push({
         event_number  : eventNumber
-       ,event_id      : (i*10) + eventNumber
+       ,event_id      : (i*100) + eventNumber
        ,eventDay      : eventList[e].split(' ')[0].replace('<b>','')
        ,startTime     : cleanText(eventList[e].split('</b>')[1].split('<b>')[0])
        ,endTime       : cleanText(eventList[e].split('</b>')[eventList[e].split('</b>').length-1])
