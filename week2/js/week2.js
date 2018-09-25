@@ -85,4 +85,4 @@ scheduleTable.children().each(function(i,child) {
 
 let dsJSON = JSON.stringify(ds);
 
-fs.writeFileSync('../data/'+fileNumber+'.json',dsJSON);
+fs.writeFileSync('../../data/'+fileNumber+'.json',dsJSON);
