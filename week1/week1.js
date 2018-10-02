@@ -29,7 +29,7 @@ for (let i=0;i<textFiles.length;i++) {
   let newFileName = textFile.split("/")[textFile.split("/").length-1]
   request(textFile, function(error, response, body){
       if (!error && response.statusCode == 200) {
-          fs.writeFileSync('/Users/ryanbest/Documents/Parsons/ds-2018/data-structures/week1/data/' + newFileName, body);
+          fs.writeFileSync('/Users/ryanbest/Documents/Parsons/ds-2018/data-structures/data/raw/' + newFileName, body);
       }
       else {console.log("Request failed!")}
   });

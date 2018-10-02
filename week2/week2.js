@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 
 let fileNumber = 'm08';
 
-let html = fs.readFileSync('../../week1/data/'+fileNumber+'.html')
+let html = fs.readFileSync('../data/raw/'+fileNumber+'.html')
 let $ = cheerio.load(html);
 let scheduleTable = $('table').eq(2).find('tbody');
 
@@ -85,4 +85,4 @@ scheduleTable.children().each(function(i,child) {
 
 let dsJSON = JSON.stringify(ds);
 
-fs.writeFileSync('../../data/'+fileNumber+'.json',dsJSON);
+fs.writeFileSync('../data/'+fileNumber+'.json',dsJSON);
