@@ -11,8 +11,8 @@ This week, I continue to work with the data I scraped, parsed, and augmented in 
 3. My general hierarchy will follow this outline, with each following item in the list constituting a more granular piece of data about a specific meeting that inherits characteristics from all proceeding data points:
 
 >1. Geo Locations (Addresses and Lat-Lons)
-2. Locations (Building Names and/or Address Details)
-3. Meetings (Meeting Names and Meeting Details)
-4. Meeting Schedules (Day/Times, Meeting Types, Special Interest)
+>2. Locations (Building Names and/or Address Details)
+>3. Meetings (Meeting Names and Meeting Details)
+>4. Meeting Schedules (Day/Times, Meeting Types, Special Interest)
 
 ![](week4_dataSchema.png)
