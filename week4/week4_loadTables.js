@@ -14,9 +14,9 @@ function loadTables() {
   // If this runs correctly, I will just need to run the first script
   // Each subsequent script is included in the callback for the previous, so there will be a chain of running each script
   let fileNumber = 'm08';
-  // loadDimGeoLocation(fileNumber);
+  loadDimGeoLocation(fileNumber);
   // loadDimLocation(fileNumber);
-  loadDimMeeting(fileNumber);
+  // loadDimMeeting(fileNumber);
   // loadFactMeetingSchedule(fileNumber);
 }
 
