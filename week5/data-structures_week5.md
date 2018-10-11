@@ -34,10 +34,10 @@ Everything inside the **info** level of hierarchy would be somewhat 'optional' -
 ## Data Model
 In terms of organizing the document(s) in my semi-structured document-oriented NoSQL database, I am considering two similar but distinct structures. I'm envisioning having one "master" document that has a running list of each entry in my project, either including links to individual documents that contain the full detail for that entry...
 
-![](png/Multiple Documents.png)
+![](png/week5_MultipleDocuments.png)
 
 ... or with this full detail nested within that one document
 
-![](png/One Document.png)
+![](png/week5_OneDocument.png)
 
 As I start my data collection process, I will use the model that uses **one document** that contains all the exhaustive detail on a specific entry nested within its contents. I think the volume of data needed for this project doesn't require creation of multiple documents, while the hierarchy that has *name*, *date*, and *type* together will allow me to access either summary or detail information from this same document. If this approach becomes unorganized or inefficient, I can always split each entry into separate documents after I've done some of the data collecting.
