@@ -15,4 +15,4 @@ This week, I continue to work with the data I scraped, parsed, and augmented in 
 >3. Meetings (Meeting Names and Meeting Details)
 >4. Meeting Schedules (Day/Times, Meeting Types, Special Interest)
 
-![](week4_dataSchema.png)
+![](png/week4_dataSchema.png)
