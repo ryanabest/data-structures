@@ -4,3 +4,5 @@ node_modules/*
 
 # ignore sketch file(s)
 *.sketch
+
+week5/credentials.csv
