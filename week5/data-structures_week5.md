@@ -18,10 +18,10 @@ This assignment plan out how I will approach building a NoSQL database for what 
   * **info** *(all the different info that I may want to include about this entry):*
     * **publication** *(if project)*
     * **author** *(if project)*
-    * **thoughts**: *(what did I think about the project? string or list*
+    * **thoughts**: *(what did I think about the project? string or list)*
     * **picture** *(preview picture?)*
     * **video** *(preview video?)*
-    * **link** *(where can I find the full project)*
+    * **link** *(where can I find the full project?)*
     * **social** *(did this person tweet out about this project? what does their twitter bio look like? instagram? this has become much more interesting to me as I think about sharing projects to a broader audience)*
     * **awards** *(has this person/project won any awards it's worth mentioning?)*
 
