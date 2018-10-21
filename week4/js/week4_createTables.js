@@ -15,17 +15,23 @@ init();
 function init() {
   client.connect();
   // helloWorld();
-  let queries = createQueries();
+  // let queries = createQueries();
   // let queries = dropQueries();
-  // let queries = deleteQuery('factMeetingSchedule');
+  let queries = deleteQueries();
+  // let queries = deleteQuery('dimGeolocation');
   runQuery(client,queries);
 
-  // let fileNumber = 'm08';
-  // let dimGeoLocation = require('../data/'+fileNumber+'_dimGeoLocation.json');
-  // let dimLocation = require('../data/'+fileNumber+'_dimLocation.json');
-  // let dimMeeting = require('../data/'+fileNumber+'_dimMeeting.json');
-  // let factMeetingSchedule = require('../data/'+fileNumber+'_factMeetingSchedule.json')
-  // getAllMaxLengths(dimGeoLocation);
+  // let fileNumbers = ['m01','m02','m03','m04','m05','m06','m07','m08','m09','m10'];
+  // for (let f=0;f<fileNumbers.length;f++) {
+  //   let fileNumber = fileNumbers[f];
+  //   let dir = '../../data/'+fileNumber;
+  //   let dimGeoLocation = require(dir+'/'+fileNumber+'_dimGeoLocation.json');
+  //   let dimLocation = require(dir+'/'+fileNumber+'_dimLocation.json');
+  //   let dimMeeting = require(dir+'/'+fileNumber+'_dimMeeting.json');
+  //   let factMeetingSchedule = require(dir+'/'+fileNumber+'_factMeetingSchedule.json')
+  //   console.log(fileNumber);
+  //   getAllMaxLengths(factMeetingSchedule);
+  // }
 }
 
 // Hello World
@@ -44,10 +50,6 @@ function helloWorld() {
 function createQueries() {
   let queries = '';
 
-  // geoLocationID :  0
-  // formattedAddress :  57
-  // lat :  0
-  // lon :  0
   queries += `
     CREATE TABLE dimGeolocation
     (
@@ -57,10 +59,7 @@ function createQueries() {
       ,lon double precision);
   `;
 
-  // longest character lengths:
-  // locationName: 46
-  // locationAddress: 30
-  // locationAddressDetail: 67
+
   queries += `
     CREATE TABLE dimLocation
     (
@@ -71,26 +70,16 @@ function createQueries() {
     );
   `;
 
-  // longest character lengths:
-  // meetingName: 38
-  // meetingSubName: 38
-  // meetingDetails: 94
+
   queries += `
     CREATE TABLE dimMeeting
     (
        meetingID int
       ,meetingName varchar(100)
       ,meetingSubName varchar(100)
-      ,meetingDetails varchar(150)
+      ,meetingDetails varchar(250)
     );
   `;
-
-  // longest character lengths:
-  // meetingDay: 10
-  // meetingStartTime: 8
-  // meetingEndTime: 8
-  // meetingType: 29
-  // meetingSpecialInterest: 17
 
   queries += `CREATE TABLE factMeetingSchedule
     (
@@ -114,6 +103,15 @@ function dropQueries() {
   queries += 'DROP TABLE dimLocation;'
   queries += 'DROP TABLE dimMeeting;'
   queries += 'DROP TABLE factMeetingSchedule;'
+  return queries;
+}
+
+function deleteQueries() {
+  let queries = '';
+  queries += 'DELETE FROM dimGeolocation;'
+  queries += 'DELETE FROM dimLocation;'
+  queries += 'DELETE FROM dimMeeting;'
+  queries += 'DELETE FROM factMeetingSchedule;'
   return queries;
 }
 
