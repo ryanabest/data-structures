@@ -9,8 +9,7 @@ let fileNumber = 'm08';
 init()
 
 function init() {
-  // for (let f=0;f<fileNumbers.length;f++) { writeFile(fileNumbers[f]); }
-  console.log("hello world this is week2 file");
+  for (let f=0;f<fileNumbers.length;f++) { writeFile(fileNumbers[f]); }
 }
 
 function cleanText(txt) {
