@@ -103,8 +103,7 @@ function writeHourData(rawData) {
       ,` + hourData.uvIndex + `
     )`;
 
-  // runQuery(query);
-  console.log(query);
+  runQuery(query);
 
   function process(rawData) {
     let darkskyData,
@@ -218,8 +217,7 @@ function writeDayData(todaysData) {
       );
     `;
 
-    // runQuery(query);
-    console.log(query);
+    runQuery(query);
   }
 
   /////// Clean up the data and put it in a format my table is expecting ///////
