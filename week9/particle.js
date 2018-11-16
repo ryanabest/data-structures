@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
 init();
 
 function init() {
-  setInterval(callAPI,30000)
+  callAPI();
 }
 
 function callAPI() {
@@ -54,7 +54,7 @@ function callAPI() {
           }
 
           let query = particleQuery(particleData);
-          
+
           runQuery(query);
 
         }
