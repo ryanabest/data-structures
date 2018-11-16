@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
 init();
 
 function init() {
-  callAPI();
+  setInterval(callAPI,30000);
 }
 
 function callAPI() {
