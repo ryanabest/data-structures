@@ -64,9 +64,9 @@ function callAPI() {
           client.connect();
           client.query(query, (err, res) => {
             if (err) {
-              console.log(err.stack);
+              console.log(err.stack, new Date());
             } else {
-              console.log(res.rowCount);
+              console.log(res.rowCount, new Date());
               client.end();
             }
           });
