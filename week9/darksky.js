@@ -169,7 +169,7 @@ function writeDayData(todaysData) {
 
   function insertData(darkskyData) {
     let query = `
-      INSERT INTO darksky_forecast (date_added,forecast_date,forecast_time,summary,sunriseTime,sunriseDateTime,sunsetTime,sunsetDateTime,precipIntensity,precipIntensityMax,precipIntensityMaxTime,precipIntensityMaxDateTime,precipProbability,precipType,temperatureHigh,temperatureHighTime,temperatureHighDateTime,temperatureLow,temperatureLowTime,temperatureLowDateTime,apparentTemperatureHigh,apparentTemperatureHighTime,apparentTemperatureHighDateTime,apparentTemperatureLow,apparentTemperatureLowTime,apparentTemperatureLowDateTime,cloudCover,uvIndex,uvIndexTime,uvIndexDateTime,temperatureMin,temperatureMinTime,temperatureMinDateTime,temperatureMax,temperatureMaxTime,temperatureMaxDateTime,apparentTemperatureMin,apparentTemperatureMinTime,apparentTemperatureMinDateTime,apparentTemperatureMax,apparentTemperatureMaxTime,apparentTemperatureMaxDateTime)
+      INSERT INTO darksky_forecast (date_added,forecast_date,forecast_time,summary,sunriseTime,sunriseDateTime,sunsetTime,sunsetDateTime,precipIntensity,precipIntensityMax,precipProbability,precipType,temperatureHigh,temperatureHighTime,temperatureHighDateTime,temperatureLow,temperatureLowTime,temperatureLowDateTime,apparentTemperatureHigh,apparentTemperatureHighTime,apparentTemperatureHighDateTime,apparentTemperatureLow,apparentTemperatureLowTime,apparentTemperatureLowDateTime,cloudCover,uvIndex,uvIndexTime,uvIndexDateTime,temperatureMin,temperatureMinTime,temperatureMinDateTime,temperatureMax,temperatureMaxTime,temperatureMaxDateTime,apparentTemperatureMin,apparentTemperatureMinTime,apparentTemperatureMinDateTime,apparentTemperatureMax,apparentTemperatureMaxTime,apparentTemperatureMaxDateTime)
       VALUES
       (
           '` + darkskyData.date_added + `'::TIMESTAMP WITH TIME ZONE
@@ -182,8 +182,6 @@ function writeDayData(todaysData) {
           ,'` + darkskyData.sunsetDateTime + `'::TIMESTAMP WITH TIME ZONE
           ,` + darkskyData.precipIntensity + `
           ,` + darkskyData.precipIntensityMax + `
-          ,` + darkskyData.precipIntensityMaxTime + `
-          ,'` + darkskyData.precipIntensityMaxDateTime + `'::TIMESTAMP WITH TIME ZONE
           ,` + darkskyData.precipProbability + `
           ,'` + darkskyData.precipType + `'
           ,` + darkskyData.temperatureHigh + `
@@ -226,7 +224,7 @@ function writeDayData(todaysData) {
         forecastDate = new Date(0),
         sunriseDateTime = new Date(0),
         sunsetDateTime = new Date(0),
-        precipIntensityMaxDateTime = new Date(0),
+        // precipIntensityMaxDateTime = new Date(0),
         temperatureHighDateTime = new Date(0),
         temperatureLowDateTime = new Date(0),
         apparentTemperatureHighDateTime = new Date(0),
@@ -240,7 +238,7 @@ function writeDayData(todaysData) {
     forecastDate.setUTCSeconds(todaysData.time);
     sunriseDateTime.setUTCSeconds(todaysData.sunriseTime);
     sunsetDateTime.setUTCSeconds(todaysData.sunsetTime);
-    precipIntensityMaxDateTime.setUTCSeconds(todaysData.precipIntensityMaxTime);
+    // precipIntensityMaxDateTime.setUTCSeconds(todaysData.precipIntensityMaxTime);
     temperatureHighDateTime.setUTCSeconds(todaysData.temperatureHighTime);
     temperatureLowDateTime.setUTCSeconds(todaysData.temperatureLowTime);
     apparentTemperatureHighDateTime.setUTCSeconds(todaysData.apparentTemperatureHighTime);
@@ -263,8 +261,8 @@ function writeDayData(todaysData) {
       sunsetDateTime: sunsetDateTime.toISOString(),
       precipIntensity: todaysData.precipIntensity,
       precipIntensityMax: todaysData.precipIntensityMax,
-      precipIntensityMaxTime: todaysData.precipIntensityMaxTime,
-      precipIntensityMaxDateTime: precipIntensityMaxDateTime.toISOString(),
+      // precipIntensityMaxTime: todaysData.precipIntensityMaxTime,
+      // precipIntensityMaxDateTime: precipIntensityMaxDateTime.toISOString(),
       precipProbability: todaysData.precipProbability,
       precipType: todaysData.precipType,
       temperatureHigh: todaysData.temperatureHigh,
@@ -317,6 +315,8 @@ function callAPI() {
   let time = Date.parse(today)/1000,
       apiURL = "https://api.darksky.net/forecast/"+darkSky+"/"+lat+","+lon+","+time+"?units=si&exclude=currently,minutely";
 
+  // console.log(time);
+  // console.log(apiURL);
   request(apiURL, function(err,resp,body) {
     if (err) {
       function sendEmail(callback) {
@@ -324,7 +324,7 @@ function callAPI() {
           from: 'ryan.a.best@gmail.com',
           to: 'bestr008@newschool.edu',
           subject: 'Darksky Forecast API Error as of ' + new Date(),
-          text: "Tried to get today's forecast data from Darksky today, specifically at " + new Date() + ', and got a failure.'
+          text: "Tried to get today's forecast data from Darksky today, specifically at " + new Date() + ', and got a failure:' + err
         }
 
         transporter.sendMail(mailOptions, function(error, info){
@@ -336,7 +336,7 @@ function callAPI() {
         });
       }
 
-      sendEmail(function() {throw err});
+      sendEmail(function() {throw "error, check email"});
     }
     else {
       let json = JSON.parse(body);
