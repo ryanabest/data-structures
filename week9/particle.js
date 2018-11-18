@@ -51,7 +51,6 @@ function init() {
 
 function callAPI() {
   let apiURL = "https://api.particle.io/v1/devices/ryanabest-ds-temperature/analogvalue?access_token="  + process.env.PARTICLE;
-  console.log(apiURL);
   let particleData
 
   request(apiURL, function(err,resp,body) {
