@@ -23,23 +23,46 @@ const transporter = nodemailer.createTransport({
   }
 })
 
+// If the particle isn't connected, send me an email letting me know then quit out
+
+function sendEmail(body, callback) {
+  let mailOptions = {
+    from: 'ryan.a.best@gmail.com',
+    to: 'bestr008@newschool.edu',
+    subject: 'Particle Disconnected as of ' + new Date(),
+    text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure: ' + body
+  }
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(new Date() + error);
+    } else {
+      console.log('We had a problem! Email sent: ' + new Date());
+    }
+  });
+}
+
 init();
 
 function init() {
+  // callAPI();
   setInterval(callAPI,30000);
 }
 
 function callAPI() {
   let apiURL = "https://api.particle.io/v1/devices/ryanabest-ds-temperature/analogvalue?access_token="  + process.env.PARTICLE;
+  console.log(apiURL);
   let particleData
 
   request(apiURL, function(err,resp,body) {
-    if (err) {throw err;}
+    if (err) { sendEmail(err,function() {throw "quitting" + new Date();}); }
     else {
 
       let results = JSON.parse(body);
 
-      if (results.coreInfo.connected) {
+      if (results.coreInfo.connected == null) {  sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();}); }
+
+      else if (results.coreInfo.connected) {
 
         particleInit();
 
@@ -89,31 +112,7 @@ function callAPI() {
           return query
         }
 
-      } else {
-
-        // If the particle isn't connected, send me an email letting me know then quit out
-
-        function sendEmail(callback) {
-          let mailOptions = {
-            from: 'ryan.a.best@gmail.com',
-            to: 'bestr008@newschool.edu',
-            subject: 'Particle Disconnected as of ' + new Date(),
-            text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure.'
-          }
-
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('Particle is not connected! Email sent: ' + info.response);
-            }
-          });
-        }
-
-        sendEmail(function() {throw "quitting"});
-
-
-      }
+      } else { sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();});}
     }
   });
 }
