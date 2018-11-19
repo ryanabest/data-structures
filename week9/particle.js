@@ -59,7 +59,7 @@ function callAPI() {
 
       let results = JSON.parse(body);
 
-      if (results.coreInfo.connected === undefined) {  sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();}); }
+      if (typeof(results.coreInfo.connected) == 'undefined') {  sendEmail(JSON.stringify(results),function() {console.log("quitting" + new Date());}); }
 
       else if (results.coreInfo.connected) {
 
@@ -111,7 +111,7 @@ function callAPI() {
           return query
         }
 
-      } else { sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();});}
+      } else { sendEmail(JSON.stringify(results),function() {console.log("quitting" + new Date());});}
     }
   });
 }
