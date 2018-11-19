@@ -59,7 +59,7 @@ function callAPI() {
 
       let results = JSON.parse(body);
 
-      if (results.coreInfo.connected == null) {  sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();}); }
+      if (results.coreInfo.connected === undefined) {  sendEmail(JSON.stringify(results),function() {throw "quitting" + new Date();}); }
 
       else if (results.coreInfo.connected) {
 
