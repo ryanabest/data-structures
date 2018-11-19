@@ -25,22 +25,22 @@ const transporter = nodemailer.createTransport({
 
 // If the particle isn't connected, send me an email letting me know then quit out
 
-function sendEmail(body, callback) {
-  let mailOptions = {
-    from: 'ryan.a.best@gmail.com',
-    to: 'bestr008@newschool.edu',
-    subject: 'Particle Disconnected as of ' + new Date(),
-    text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure: ' + body
-  }
-
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(new Date() + error);
-    } else {
-      console.log('We had a problem! Email sent: ' + new Date());
-    }
-  });
-}
+// function sendEmail(body, callback) {
+//   let mailOptions = {
+//     from: 'ryan.a.best@gmail.com',
+//     to: 'bestr008@newschool.edu',
+//     subject: 'Particle Disconnected as of ' + new Date(),
+//     text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure: ' + body
+//   }
+//
+//   transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//       console.log(new Date() + error);
+//     } else {
+//       console.log('We had a problem! Email sent: ' + new Date());
+//     }
+//   });
+// }
 
 init();
 
@@ -54,64 +54,71 @@ function callAPI() {
   let particleData
 
   request(apiURL, function(err,resp,body) {
-    if (err) { sendEmail(err,function() {throw "quitting" + new Date();}); }
+    if (err) { console.log("ERROR at " + new Date() + " " + error); }
     else {
 
       let results = JSON.parse(body);
 
-      if (typeof(results.coreInfo.connected) == 'undefined') {  sendEmail(JSON.stringify(results),function() {console.log("quitting" + new Date());}); }
+      try {
+        if (results.coreInfo.connected) {
 
-      else if (results.coreInfo.connected) {
+          particleInit();
 
-        particleInit();
+          function particleInit() {
+            particleData = {
+              name:               results.name,
+              result:             results.result,
+              last_heard:         results.coreInfo.last_heard,
+              last_handshake_at:  results.coreInfo.last_handshake_at,
+              device_id:          results.coreInfo.deviceID,
+              product_id:         results.coreInfo.product_id
+            }
 
-        function particleInit() {
-          particleData = {
-            name:               results.name,
-            result:             results.result,
-            last_heard:         results.coreInfo.last_heard,
-            last_handshake_at:  results.coreInfo.last_handshake_at,
-            device_id:          results.coreInfo.deviceID,
-            product_id:         results.coreInfo.product_id
+            let query = particleQuery(particleData);
+
+            runQuery(query);
+
           }
 
-          let query = particleQuery(particleData);
+          function runQuery(query) {
+            const client = createClient();
+            client.connect();
+            client.query(query, (err, res) => {
+              if (err) {
+                console.log(err.stack, new Date());
+              } else {
+                console.log(res.rowCount, new Date());
+                client.end();
+              }
+            });
+          }
 
-          runQuery(query);
+          function particleQuery(data) {
+            let query = `
+              INSERT INTO particle_temperature (name,result,last_heard,last_handshake_at,device_id,product_id,date_added) VALUES
+              (
+                 '`  + data.name + `'
+                 ,`  + data.result + `
+                 ,'` + data.last_heard + `'::TIMESTAMP WITH TIME ZONE
+                 ,'` + data.last_handshake_at + `'::TIMESTAMP WITH TIME ZONE
+                 ,'` + data.device_id + `'
+                 ,`  + data.product_id + `
+                 ,'` + new Date().toISOString() + `'::TIMESTAMP WITH TIME ZONE
+              );
+            `;
 
-        }
+            return query
+          }
 
-        function runQuery(query) {
-          const client = createClient();
-          client.connect();
-          client.query(query, (err, res) => {
-            if (err) {
-              console.log(err.stack, new Date());
-            } else {
-              console.log(res.rowCount, new Date());
-              client.end();
-            }
-          });
-        }
+        } else { console.log("Not Connected at " + new Date() + " " + JSON.stringify(results)); }
 
-        function particleQuery(data) {
-          let query = `
-            INSERT INTO particle_temperature (name,result,last_heard,last_handshake_at,device_id,product_id,date_added) VALUES
-            (
-               '`  + data.name + `'
-               ,`  + data.result + `
-               ,'` + data.last_heard + `'::TIMESTAMP WITH TIME ZONE
-               ,'` + data.last_handshake_at + `'::TIMESTAMP WITH TIME ZONE
-               ,'` + data.device_id + `'
-               ,`  + data.product_id + `
-               ,'` + new Date().toISOString() + `'::TIMESTAMP WITH TIME ZONE
-            );
-          `;
+      }
 
-          return query
-        }
+      catch(err) {
+        console.log("ERROR at " + new Date() + ": " + error.message);
+        console.log("Results: " + JSON.stringify(results));
+      }
 
-      } else { sendEmail(JSON.stringify(results),function() {console.log("quitting" + new Date());});}
-    }
+          }
   });
 }
