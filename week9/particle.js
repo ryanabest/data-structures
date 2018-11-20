@@ -54,7 +54,11 @@ function callAPI() {
   let particleData
 
   request(apiURL, function(err,resp,body) {
-    if (err) { console.log("ERROR at " + new Date() + " " + error); }
+    if (err) {
+      let errMessage = "ERROR at " + new Date() + "|" + error
+      console.log(errMessage);
+      fs.appendFileSync('errors.txt',errMessage);
+    }
     else {
 
       let results = JSON.parse(body);
@@ -110,13 +114,18 @@ function callAPI() {
             return query
           }
 
-        } else { console.log("Not Connected at " + new Date() + " " + JSON.stringify(results)); }
+        } else {
+          let errMessage = "Not Connected at " + new Date() + "|" + JSON.stringify(results);
+          console.log(errMessage);
+          fs.appendFileSync('errors.txt',errMessage);
+        }
 
       }
 
       catch(err) {
         console.log("ERROR at " + new Date() + ": " + error.message);
         console.log("Results: " + JSON.stringify(results));
+        fs.appendFileSync("ERROR at " + new Date() + "|" + error.message + "|" + JSON.stringify(results));
       }
 
           }
