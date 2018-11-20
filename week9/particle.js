@@ -90,8 +90,10 @@ function callAPI() {
             client.query(query, (err, res) => {
               if (err) {
                 console.log(err.stack, new Date());
+                fs.appendFileSync('errors.txt',err.stack, new Date());
               } else {
                 console.log(res.rowCount, new Date());
+                fs.appendFileSync('errors.txt',res.rowCount, new Date());
                 client.end();
               }
             });
