@@ -22,7 +22,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'https://github.com/ryanabest/data-structures.git',
       path : '/home/ec2-user/www/data-structures',
-      'post-deploy' : 'cd week9 && npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy' : 'cd week9 && nvm install 6.10.3 && npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
 };
