@@ -128,7 +128,7 @@ function callAPI() {
       catch(err) {
         console.log("ERROR at " + new Date() + ": " + err.message);
         console.log("Results: " + JSON.stringify(results));
-        fs.appendFileSync("ERROR at " + new Date() + "|" + err.message + "|" + JSON.stringify(results) + "'\n'");
+        fs.appendFileSync('errors.txt',"ERROR at " + new Date() + "|" + err.message + "|" + JSON.stringify(results) + "'\n'");
       }
 
           }
