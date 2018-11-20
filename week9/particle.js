@@ -58,7 +58,7 @@ function callAPI() {
     if (err) {
       let errMessage = "ERROR at " + new Date() + "|" + error
       console.log(errMessage);
-      fs.appendFileSync('errors.txt',errMessage);
+      fs.appendFileSync('errors.txt',errMessage + "'\n'");
     }
     else {
 
@@ -91,10 +91,10 @@ function callAPI() {
             client.query(query, (err, res) => {
               if (err) {
                 console.log(err.stack, new Date());
-                fs.appendFileSync('errors.txt',err.stack, new Date());
+                fs.appendFileSync('errors.txt',err.stack + new Date() + "'\n'");
               } else {
                 console.log(res.rowCount, new Date());
-                fs.appendFileSync('errors.txt',res.rowCount, new Date());
+                fs.appendFileSync('errors.txt',res.rowCount + new Date() + "'\n'");
                 client.end();
               }
             });
@@ -120,7 +120,7 @@ function callAPI() {
         } else {
           let errMessage = "Not Connected at " + new Date() + "|" + JSON.stringify(results);
           console.log(errMessage);
-          fs.appendFileSync('errors.txt',errMessage);
+          fs.appendFileSync('errors.txt',errMessage + "'\n'");
         }
 
       }
@@ -128,7 +128,7 @@ function callAPI() {
       catch(err) {
         console.log("ERROR at " + new Date() + ": " + error.message);
         console.log("Results: " + JSON.stringify(results));
-        fs.appendFileSync("ERROR at " + new Date() + "|" + error.message + "|" + JSON.stringify(results));
+        fs.appendFileSync("ERROR at " + new Date() + "|" + error.message + "|" + JSON.stringify(results) + "'\n'");
       }
 
           }
