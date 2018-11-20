@@ -126,9 +126,9 @@ function callAPI() {
       }
 
       catch(err) {
-        console.log("ERROR at " + new Date() + ": " + error.message);
+        console.log("ERROR at " + new Date() + ": " + err.message);
         console.log("Results: " + JSON.stringify(results));
-        fs.appendFileSync("ERROR at " + new Date() + "|" + error.message + "|" + JSON.stringify(results) + "'\n'");
+        fs.appendFileSync("ERROR at " + new Date() + "|" + err.message + "|" + JSON.stringify(results) + "'\n'");
       }
 
           }
