@@ -1,6 +1,7 @@
 const { Client } = require('pg'),
       request = require('request'),
-      nodemailer = require('nodemailer');
+      nodemailer = require('nodemailer'),
+      fs = require('fs');
 
 
 function createClient() {
