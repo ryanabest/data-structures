@@ -26,22 +26,22 @@ const transporter = nodemailer.createTransport({
 
 // If the particle isn't connected, send me an email letting me know then quit out
 
-// function sendEmail(body, callback) {
-//   let mailOptions = {
-//     from: 'ryan.a.best@gmail.com',
-//     to: 'bestr008@newschool.edu',
-//     subject: 'Particle Disconnected as of ' + new Date(),
-//     text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure: ' + body
-//   }
-//
-//   transporter.sendMail(mailOptions, function(error, info){
-//     if (error) {
-//       console.log(new Date() + error);
-//     } else {
-//       console.log('We had a problem! Email sent: ' + new Date());
-//     }
-//   });
-// }
+function sendEmail(body, callback) {
+  let mailOptions = {
+    from: 'ryan.a.best@gmail.com',
+    to: 'bestr008@newschool.edu',
+    subject: 'Particle Disconnected as of ' + new Date(),
+    text: 'Tried to push data from the particle on ' + new Date() + ' and got a failure: ' + body
+  }
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(new Date() + error);
+    } else {
+      console.log('We had a problem! Email sent: ' + new Date());
+    }
+  });
+}
 
 init();
 
@@ -57,7 +57,7 @@ function callAPI() {
   request(apiURL, function(err,resp,body) {
     if (err) {
       let errMessage = "ERROR at " + new Date() + "|" + error
-      console.log(errMessage);
+      sendEmail(errMessage,function() { console.log(errMessage) });
     }
     else {
 
@@ -116,14 +116,16 @@ function callAPI() {
 
         } else {
           let errMessage = "Not Connected at " + new Date() + "|" + JSON.stringify(results);
-          console.log(errMessage);
+          sendEmail(errMessage,function() { console.log(errMessage) });
         }
 
       }
 
       catch(err) {
-        console.log("ERROR at " + new Date() + ": " + err.message);
-        console.log("Results: " + JSON.stringify(results));
+        sendEmail(JSON.stringify(results),function() {
+          console.log("ERROR at " + new Date() + ": " + err.message);
+          console.log("Results: " + JSON.stringify(results));
+        })
       }
 
           }
