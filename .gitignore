@@ -9,3 +9,8 @@ week5/credentials.csv
 week8/particle-IDE-token.txt
 week8/apiCall.txt
 week9/ecosystem.config.js
+week9/ecosystem.config2.js
+week9/ParticleTempPM2.pem
+
+# final express app
+final/node_modules/*
