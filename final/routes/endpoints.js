@@ -21,11 +21,9 @@ router.get('/', function(req, res, next) {
   res.render('endpoints', { title: 'DS2018 Endpoints - Ryan Best' , body:
   `
   <h1>Endpoints</h1>
-  <ul>
-      <li><a href="/endpoints/aa">AA Meetings</a></li>
-      <li><a href="/endpoints/diary">Dear Diary</a></li>
-      <li><a href="/endpoints/sensor">Sensor Data</a></li>
-  </ul>
+  <a href="/endpoints/aa"><h1>AA Meetings</h1></a>
+  <a href="/endpoints/diary"><h1>Dear Diary</h1></a>
+  <a href="/endpoints/sensor"><h1>Sensor Data</h1></a>
   `});
 });
 
