@@ -16,8 +16,8 @@ let params = {
     },
     ExpressionAttributeValues: { // the query values
         ":topicName": {S: "interactive viz"},
-        ":minDate": {S: new Date("October 1, 2018").toLocaleString()},
-        ":maxDate": {S: new Date("October 31, 2018").toLocaleString()}
+        ":minDate": {S: new Date("October 1, 2018").toLocaleDateString()},
+        ":maxDate": {S: new Date("December 31, 2018").toLocaleDateString()}
     }
 };
 
