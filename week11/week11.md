@@ -50,9 +50,9 @@ NOTE: This documentation details the ideal state of each project, not *necessari
 
 #### Sketches:
 ##### Default View
-![alt text](AA1.png "AA1")
+![alt text](AA1.png "AA Sketch 1: Default")
 ##### User Interaction
-![alt text](AA2.png "AA2")
+![alt text](AA2.png "AA Sketch 2: User Interaction")
 
 ---
 
@@ -95,7 +95,7 @@ NOTE: This documentation details the ideal state of each project, not *necessari
     * They have decent amount of data literacy (since a difference chart is a moderately complex visualization)
 
 #### Sketch:
-![alt text](Particle Temperature.png "Particle Temperature Sketch")
+![alt text](ParticleTemperature.png "Particle Temperature Sketch")
 
 ---
 
@@ -135,4 +135,4 @@ NOTE: This documentation details the ideal state of each project, not *necessari
     * The most recently added project will be most relevant to them (since any repeat users will want to see newest additions first)
 
 #### Sketch:
-![alt text](Diary of Envy.png "Diary of Envy Sketch")
+![alt text](DiaryofEnvy.png "Diary of Envy Sketch")
