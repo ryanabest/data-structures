@@ -14,14 +14,6 @@ router.get('/', function(req, res, next) {
   `});
 });
 
-/* GET AA page. */
-router.get('/aa', function(req, res, next) {
-  response = {
-            hours : req.query.hours
-            };
-  next()
-}, function(req, res, next) {});
-
 // AWS Connection
 function createClient() {
   const client = new Client({
@@ -34,5 +26,30 @@ function createClient() {
 
   return client;
 }
+
+
+/* GET AA page. */
+router.get('/aa', function(req, res, next) {
+  response = {
+            hours : req.query.hours
+            };
+  let hours;
+  if (response.hours == null) {
+    hours = 5;
+  } else {
+    hours = response.hours
+  }
+  res.render('aa', {title: 'AA Interface', hours: hours});
+});
+
+/* GET Diary page. */
+router.get('/diary', function(req, res, next) {
+  res.render('diary', {title: 'Diary Interface'});
+});
+
+/* GET Sensor page. */
+router.get('/sensor', function(req, res, next) {
+  res.render('sensor', {title: 'Sensor Interface'});
+});
 
 module.exports = router;
