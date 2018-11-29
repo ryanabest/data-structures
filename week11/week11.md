@@ -112,13 +112,13 @@ NOTE: This documentation details the ideal state of each project, not *necessari
     * Project preview (*img*)
     * Summary of my thought(s) (*p* or *ul*)
     * Link to the project (*a*)
-    * Social link (with twitter icon) (*img* / *a*)
+    * Social link (with twitter icon) (*img* & *a*)
 * As of now I’ll be including every element I’ve logged within the nested “info” element, except tags (which would add an exciting element of selecting/filtering to my page, but would require a more extensive filtering infrastructure than the three filters in the current scope – tags would also be most relevant if I had more data than I will plan on having by the time I roll this out into a prototype)
 * If my thought text list ends up being too long, I can just take the first element in the list and use that as a summary, then either forego other thoughts or figure out a way to hide this extra detail behind an additional interaction layer (have some way to go from summary view —> detail view)
 
 #### Data Manipulation:
 * I won’t need to do any aggregation here, but I will need to filter, sort, and restructure my data coming out of DynamoDB to construct the HTML code that will be appended to my index.html file:
-  * I will probably need to bring a lot of my data out of the nested structure I created, since I need to create an HTML element for each individual aspect of the entry whether its inside or outside of my nested “info” element. This reflects a bit of an unintended difference from what I expected to do in my [original database design](https://github.com/ryanabest/data-structures/blob/master/week5/data-structures_week5.md - this data structure will still work for these purposes, but I won't really be using the nesting as anticipated)
+  * I will probably need to bring a lot of my data out of the nested structure I created, since I need to create an HTML element for each individual aspect of the entry whether its inside or outside of my nested “info” element. This reflects a bit of an unintended difference from what I expected to do in my [original database design](https://github.com/ryanabest/data-structures/blob/master/week5/data-structures_week5.md) - this data structure will still work for these purposes, but I won't really be using the nesting as anticipated.
   * The data will need to be filtered (based on which entry type is selected) then sorted (by date added to the diary descending).
   * I’ll then need to look within each entry that comes back from that query to see if individual elements I want to show are present, using those elements to generate html code.
   * For instance, I’ll need to wrap the project title in *h1* tags, the author in *h2* tags, and so on.
