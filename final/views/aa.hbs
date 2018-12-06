@@ -2,13 +2,46 @@
 <html>
   <head>
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/leaflet.css'/>
+    <link rel='stylesheet' href='/stylesheets/aa/aaCSS.css'/>
+    <script src="/libraries/leaflet.js"></script>
   </head>
   <body>
-    <h1>{{title}}</h1>
-    <form method="GET">
-       <input type="text" id="bar" name="hours" />
-    </form>
-    <p>So, in my visualization, I will try to find meetings in the next {{hours}} hours</p>
+    <div id="header">
+      <p>So, in my visualization, I will try to find meetings in the next </p>
+      <form id="hours" class="user_param_form" method="POST">
+        <input type="number" name="hours" min="0" max="72" step="0.5" value="{{hours}}"/>
+      </form>
+      <p>hours within</p>
+      <form id="miles" class="user_param_form" method="POST">
+         <input type="number" name="miles" min="0" max="10" step="0.1" value="{{miles}}"/>
+      </form>
+      <p>miles of Parsons</p>
+    </div>
+    <div class="leaflet_map" id="map">
+      <script>
+      init();
+
+      function init() {
+        let map = L.map('map').setView([40.7353003, -73.9945926], 13);
+        leafletMap(map);
+        runTest(map);
+      }
+
+      function leafletMap(map) {
+        let CartoDB = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          	subdomains: 'abcd',
+          	maxZoom: 19
+        }).addTo(map);
+      }
+
+      function runTest(map) {
+        {{test}}
+      }
+
+      </script>
+    </div>
   </body>
 </html>

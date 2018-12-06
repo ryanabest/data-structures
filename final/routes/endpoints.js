@@ -21,14 +21,15 @@ router.get('/', function(req, res, next) {
   res.render('endpoints', { title: 'DS2018 Endpoints - Ryan Best' , body:
   `
   <h1>Endpoints</h1>
-  <a href="/endpoints/aa"><h1>AA Meetings</h1></a>
+  <a href="/endpoints/aa/48/2"><h1>AA Meetings</h1></a>
   <a href="/endpoints/diary"><h1>Dear Diary</h1></a>
   <a href="/endpoints/sensor"><h1>Sensor Data</h1></a>
+  <a href="/"><h2>..back..</h2></a>
   `});
 });
 
 // AA Endpoint
-router.get('/aa', function(req, res, next) {
+router.get('/aa/:hours/:miles', function(req, res, next) {
   let query = `
   WITH TODAY as (
     SELECT
@@ -36,7 +37,7 @@ router.get('/aa', function(req, res, next) {
       ,min(date_trunc('minute',the_day)::time) as earliest_time
       ,max(date_trunc('minute',the_day)::time) as latest_time
     FROM generate_series(CURRENT_TIMESTAMP
-                       ,CURRENT_TIMESTAMP + INTERVAL '48 hours'
+                       ,CURRENT_TIMESTAMP + INTERVAL '`+req.params.hours+` hours'
                        , interval  '1 minute') the_day
     GROUP BY TRIM(UPPER(to_char(the_day, 'day')))
     )
@@ -76,7 +77,7 @@ router.get('/aa', function(req, res, next) {
       ON UPPER(m.meetingday) LIKE '%'||t.day||'%'
       AND t.earliest_time <= m.meetingstarttime_raw
       AND t.latest_time >= m.meetingstarttime_raw
-    WHERE lldistance(m.lat,m.lon,40.7353003,-73.9967813) <= 2
+    WHERE lldistance(m.lat,m.lon,40.7353003,-73.9967813) <= `+req.params.miles+`
     )
 
     , TODAYS_MEETING_SCHEDULE as (
@@ -141,9 +142,9 @@ router.get('/aa', function(req, res, next) {
   client.query(query, (err, qres) => {
     if (err) { throw (err) }
     else {
-      res.send(qres.rows);
+      res.json(qres.rows);
       client.end();
-      console.log("Responded to AA request");
+      console.log("Responded to AA request for meetings in next " + req.params.hours + "hours");
     }
   });
 })

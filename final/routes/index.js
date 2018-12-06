@@ -27,21 +27,6 @@ function createClient() {
   return client;
 }
 
-
-/* GET AA page. */
-router.get('/aa', function(req, res, next) {
-  response = {
-            hours : req.query.hours
-            };
-  let hours;
-  if (response.hours == null) {
-    hours = 5;
-  } else {
-    hours = response.hours
-  }
-  res.render('aa', {title: 'AA Interface', hours: hours});
-});
-
 /* GET Diary page. */
 router.get('/diary', function(req, res, next) {
   res.render('diary', {title: 'Diary Interface'});
