@@ -9,15 +9,14 @@
   </head>
   <body>
     <div id="header">
-      <p>So, in my visualization, I will try to find meetings in the next </p>
-      <form id="hours" class="user_param_form" method="POST">
-        <input type="number" name="hours" min="0" max="72" step="0.5" value="{{hours}}"/>
+      <form id="user_param_form" class="user_param_form" method="POST">
+        <p>So, in my visualization, I will try to find meetings in the next</p>
+        <input type="number" name="hours" min="0" max="72" step="0.5" value={{hours}} />
+        <p>hours within</p>
+        <input type="number" name="miles" min="0" max="10" step="0.1" value={{miles}} />
+        <p>miles of Parsons</p>
+        <input type="submit" value="Submit">
       </form>
-      <p>hours within</p>
-      <form id="miles" class="user_param_form" method="POST">
-         <input type="number" name="miles" min="0" max="10" step="0.1" value="{{miles}}"/>
-      </form>
-      <p>miles of Parsons</p>
     </div>
     <div class="leaflet_map" id="map">
       <script>
@@ -38,7 +37,57 @@
       }
 
       function runTest(map) {
-        {{test}}
+        let colors = ['#045A8D','#2B8CBE','#74A9CF','#A6BDDB','#D0D1E6']
+        let mapMarkers = [];
+
+        {{{test}}}
+
+        function getMaxDistances(markerList) {
+          let lldistanceList = [];
+          for (let d=0;d<markerList.length;d++) {
+            lldistanceList.push(markerList[d].lldistance);
+          }
+
+          return {
+            max: Math.max.apply(null,lldistanceList) + 0.01,
+            min: Math.min.apply(null,lldistanceList),
+          }
+        }
+
+        let maxmin = getMaxDistances(mapMarkers);
+        // console.log(maxmin);
+
+        for (let m=0;m<mapMarkers.length;m++) {
+          let marker = mapMarkers[m];
+          let colIndex = Math.floor((marker.lldistance/maxmin.max)/0.2)
+
+          let markerHTMLStyles = `
+            background-color: `+colors[colIndex]+`;
+            width: 2rem;
+            height: 2rem;
+            display: block;
+            left: -1rem;
+            top: -1rem;
+            position: relative;
+            border-radius: 2rem 2rem 0;
+            transform: rotate(45deg);
+            border: 1px dotted #FFFFFF
+          `
+          let myIcon = L.divIcon({
+            className: "my-custom-pin",
+            html: '<span style="'+markerHTMLStyles+'" />',
+            custom: 'this is a test'
+          });
+
+          let lat = marker.lat;
+          let lon = marker.lon;
+          let leaf = L.marker([lat,lon], {icon: myIcon}).addTo(map).on('click',onClick);
+
+          function onClick() {
+            console.log("bind info to new div");
+          }
+        }
+
       }
 
       </script>
