@@ -6,6 +6,24 @@ p {
   color: #fff;
 }
 
+#header {
+  position: fixed;
+}
+
+#header p {
+  display: inline;
+}
+
+#header input {
+  color: #fff;
+  background: none;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  border-bottom: 2px dotted white;
+  font-size: 120%;
+}
+
 #map {
   height: 100vh;
   width: 100vw;
@@ -21,7 +39,7 @@ p {
 }
 
 .tooltip_hide {
-  transform: translateX(-20px);
+  transform: translateX(0px);
 }
 
 .button_show {
@@ -49,7 +67,8 @@ p {
   float: right;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
   color: #fff;
-  padding: 5%;
+  padding: 3% 7%;
+  overflow: scroll;
 }
 
 #tooltip_button {
@@ -79,5 +98,30 @@ p {
   position: relative;
   border-radius: 2rem 2rem 0;
   transform: rotate(45deg);
-  border: 1px dotted #FFFFFF
+  border: 1px solid #FFFFFF;
+}
+
+#current-leaflet-marker {
+  background-color: #FA8072;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  left: -0.75rem;
+  top: -0.75rem;
+  position: relative;
+  border-radius: 1.5rem 1.5rem 0;
+  transform: rotate(45deg);
+  border: 1px solid #FFFFFF;
+}
+
+.leaflet-marker-active {
+  width: 3rem;
+  height: 3rem;
+  display: block;
+  left: -1.5rem;
+  top: -1.5rem;
+  position: relative;
+  border-radius: 3rem 3rem 0;
+  transform: rotate(45deg);
+  border: 5px solid #FA8072;
 }

@@ -116,7 +116,7 @@ function aaQuery(hours,miles) {
     )
 
     , TODAYS_MEETINGS as (
-    SELECT *, lldistance(m.lat,m.lon,40.7353003,-73.9967813) as lldistance
+    SELECT *, lldistance(m.lat,m.lon,40.7353555,-73.9940603) as lldistance
     FROM MEETINGS m
     JOIN TODAY t
       ON UPPER(m.meetingday) LIKE '%'||t.day||'%'

@@ -10,12 +10,13 @@
   <body>
     <div id="header">
       <form id="user_param_form" class="user_param_form" method="POST">
-        <p>So, in my visualization, I will try to find meetings in the next</p>
+        <p>I need any meeting in the next</p>
         <input type="number" name="hours" min="0" max="72" step="0.5" value={{hours}} />
         <p>hours within</p>
         <input type="number" name="miles" min="0" max="10" step="0.1" value={{miles}} />
         <p>miles of Parsons</p>
-        <input type="submit" value="Submit">
+        <br>
+        <input type="submit" id="submit_input" value="Show Me These Meetings->">
       </form>
     </div>
     <div class="tooltip_container tooltip_hide" id="tooltip_container">
@@ -26,13 +27,22 @@
       </div>
       <script>
       document.getElementById("tooltip_button").addEventListener("click",function() {
-        let tooltip_div = document.getElementById("tooltip_container").classList.toggle("tooltip_hide");
+        let tooltip_div = document.getElementById("tooltip_container");
         let button_right = document.getElementById("button_right"),
             button_left = document.getElementById("button_left");
 
+        // if tooltip is currently shown, clear the HTML in it and clear the current selection
+        if (!tooltip_div.classList.contains("tooltip_hide")) {
+          document.getElementById("tooltip").innerHTML = "";
+          let allMarkers = document.getElementsByClassName('leaflet-marker');
+          for (let am=0;am<allMarkers.length;am++) {
+            allMarkers[am].classList.remove("leaflet-marker-active");
+          }
+        };
+        tooltip_div.classList.toggle("tooltip_hide");
         button_right.classList.toggle("button_show");
-        button_right.classList.toggle("button_hide")
-        button_left.classList.toggle("button_show")
+        button_right.classList.toggle("button_hide");
+        button_left.classList.toggle("button_show");
         button_left.classList.toggle("button_hide");
       });
       </script>
@@ -42,9 +52,14 @@
       init();
 
       function init() {
-        let map = L.map('map').setView([40.7353003, -73.9945926], 13);
+        let myLat = 40.7353555;
+        let myLng = -73.9940603;
+        let map = L.map('map').setView([myLat, myLng], 13);
         leafletMap(map);
-        runTest(map);
+        myLocation(map,myLat,myLng);
+        let mapIcons = [];
+        map.on('zoom',function(){setZindex(map,mapIcons);});
+        drawMarkers(map,mapIcons);
       }
 
       function leafletMap(map) {
@@ -55,11 +70,26 @@
         }).addTo(map);
       }
 
-      function runTest(map) {
+      function myLocation(map,myLat,myLng) {
+        let myIcon = L.divIcon({
+          className: "current-location",
+          // html: '<span style="'+markerHTMLStyles+'" />',
+          html: '<span class="leaflet-marker" id="current-leaflet-marker" />'
+        });
+
+        L.marker([myLat,myLng], {icon: myIcon}).addTo(map);
+
+      }
+
+      function drawMarkers(map,mapIcons) {
         let colors = ['#045A8D','#2B8CBE','#74A9CF','#A6BDDB','#D0D1E6']
         let mapMarkers = [];
 
         {{{markers}}}
+        let maxmin = getMaxDistances(mapMarkers);
+        drawMarkers();
+        setZindex();
+        // map.on('zoomend', setZindex);
 
         function getMaxDistances(markerList) {
           let lldistanceList = [];
@@ -73,49 +103,96 @@
           }
         }
 
-        let maxmin = getMaxDistances(mapMarkers);
-        // console.log(maxmin);
+        function drawMarkers() {
+          for (let m=0;m<mapMarkers.length;m++) {
+            let marker = mapMarkers[m];
+            let colIndex = Math.floor((marker.lldistance/maxmin.max)/0.2)
 
-        for (let m=0;m<mapMarkers.length;m++) {
-          let marker = mapMarkers[m];
-          let colIndex = Math.floor((marker.lldistance/maxmin.max)/0.2)
+            let myIcon = L.divIcon({
+              className: "meeting-location",
+              // html: '<span style="'+markerHTMLStyles+'" />',
+              html: '<span class="leaflet-marker" id="leaflet-marker-'+m+'" style="background-color:'+colors[colIndex]+'" />'
+            });
 
-          let markerHTMLStyles = `
-            background-color: `+colors[colIndex]+`;
-            width: 2rem;
-            height: 2rem;
-            display: block;
-            left: -1rem;
-            top: -1rem;
-            position: relative;
-            border-radius: 2rem 2rem 0;
-            transform: rotate(45deg);
-            border: 1px dotted #FFFFFF
-          `
-          let myIcon = L.divIcon({
-            className: "my-custom-pin",
-            // html: '<span style="'+markerHTMLStyles+'" />',
-            html: '<span class="leaflet-marker" style="background-color:'+colors[colIndex]+'" />',
-            custom: 'this is a test'
-          });
+            let lat = marker.lat;
+            let lon = marker.lon;
+            let leaf = L.marker([lat,lon], {icon: myIcon}).addTo(map).on('click',onClick);
 
-          let lat = marker.lat;
-          let lon = marker.lon;
-          let leaf = L.marker([lat,lon], {icon: myIcon}).addTo(map).on('click',onClick);
+            mapIcons.push(leaf);
 
-          function onClick() {
-            let tooltipHtml = '';
-            for (let a=0;a<marker.locations_json.length;a++) {
-              let locations = marker.locations_json[a];
-              tooltipHtml += '<h1>'+locations.location_name+'</h1>'
-              tooltipHtml += '<h2>'+locations.location_address+'</h2>'
-              tooltipHtml += '<h3>'+locations.location_addressdetail+'</h3>'
+            function onClick() {
+              setActiveMarker();
+              setTooltipHTML();
+              showHideTooltip();
+
+              function setActiveMarker() {
+                let allMarkers = document.getElementsByClassName('leaflet-marker');
+                let thisMarker = document.getElementById('leaflet-marker-'+m);
+
+                for (let am=0;am<allMarkers.length;am++) {
+                  allMarkers[am].classList.remove("leaflet-marker-active");
+                  // allMarkers[am].parentElement.style.zIndex = "100";
+                }
+                thisMarker.classList.toggle("leaflet-marker-active");
+                thisMarker.parentElement.style.zIndex = "999900";
+              }
+
+              function setTooltipHTML() {
+                let tooltipHtml = '';
+                for (let a=0;a<marker.locations_json.length;a++) {
+                  let locations = marker.locations_json[a];
+                  tooltipHtml += '<div class ="tooltip_location" id="tooltip_location_'+locations.location_id+'">'
+                  tooltipHtml += '<h1 class="location_name">'+locations.location_name+'</h1>';
+                  tooltipHtml += '<h2 class="location_address">'+locations.location_address+'</h2>';
+                  tooltipHtml += '<h3 class="location_addressdetail">'+locations.location_addressdetail+'</h3>';
+
+                  for (let m=0;m<locations.meetings.length;m++) {
+                    let meeting = locations.meetings[m],
+                        meetingName = meeting.meeting_name,
+                        meetingDetails = meeting.meeting_details.split(" | "),
+                        meetingSchedule = meeting.schedule;
+                    tooltipHtml += '<hr><div class="tooltip_meeting" id="tooltip_meeting_'+meeting.meeting_id+'"><h4 class="meeting_name">'+meetingName+'</h4>';
+                    for (let s=0;s<meetingSchedule.length;s++) {
+                      let schedule = meetingSchedule[s];
+                      tooltipHtml += '<h4 class="meeting_type">'+schedule.meeting_type
+                      if (schedule.meeting_specialinterest !== '') { tooltipHtml += ' <span class="meeting_specialinterest">(' + schedule.meeting_specialinterest + ')</span>' };
+                      tooltipHtml += '</h4><h4 class="meeting_schedule">'+schedule.meeting_day+' '+schedule.meeting_starttime+' - '+schedule.meeting_endtime+'</h4>';
+                    }
+                    for (let d=0;d<meetingDetails.length-1;d++) {
+                      tooltipHtml += '<p class="meeting_detail">'+meetingDetails[d]+'</p>'
+                    }
+                  };
+                  tooltipHtml += '</div>'
+                }
+                document.getElementById('tooltip').innerHTML = tooltipHtml;
+              }
+
+              function showHideTooltip() {
+                let tooltip_div = document.getElementById("tooltip_container");
+                let button_right = document.getElementById("button_right"),
+                    button_left = document.getElementById("button_left");
+
+               if (tooltip_div.classList.contains("tooltip_hide")) {
+                 tooltip_div.classList.toggle("tooltip_hide");
+                 button_right.classList.toggle("button_show");
+                 button_right.classList.toggle("button_hide");
+                 button_left.classList.toggle("button_show");
+                 button_left.classList.toggle("button_hide");
+               };
+              }
             }
-            document.getElementById('tooltip').innerHTML = tooltipHtml;
-            console.log(tooltipHtml);
           }
         }
+      }
 
+      function setZindex(map,mapIcons) {
+        for (let mi=0;mi<mapIcons.length;mi++) {
+          let marker = mapIcons[mi];
+          let pos = map.latLngToLayerPoint(marker.getLatLng()).round()
+          if (marker._icon.firstChild.classList.contains('leaflet-marker-active')) {marker.setZIndexOffset(999999 - pos.y);}
+          // else {marker.setZIndexOffset(100 - pos.y);}
+        }
+        let thisMarker = document.getElementsByClassName('leaflet-marker-active')[0];
       }
 
       </script>
