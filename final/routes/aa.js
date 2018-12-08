@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
         let meeting = aaMeetings[a];
         markers += 'mapMarkers.push('+JSON.stringify(aaMeetings[a])+');'
       }
-      res.render('aa', {title: 'AA Interface', hours: hours, miles: miles, test: markers})
+      res.render('aa', {title: 'AA Interface', hours: hours, miles: miles, markers: markers})
       console.log("Responded to AA request for meetings in next " + hours + " hours");
     }
   });
@@ -66,7 +66,7 @@ router.post('/', function(req, res) {
         let meeting = aaMeetings[a];
         markers += 'mapMarkers.push('+JSON.stringify(aaMeetings[a])+');'
       }
-      res.render('aa', {title: 'AA Interface', hours: hours, miles: miles, test: markers})
+      res.render('aa', {title: 'AA Interface', hours: hours, miles: miles, markers: markers})
       console.log("Responded to AA request for meetings in next " + hours + " hours");
     }
   });

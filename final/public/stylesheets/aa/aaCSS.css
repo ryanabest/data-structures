@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 p {
   color: #fff;
 }
@@ -9,4 +13,71 @@ p {
   left: 0;
   top: 0;
   z-index: -1;
+}
+
+.tooltip_container {
+  transform: translateX(-400px);
+  transition: transform 0.5s;
+}
+
+.tooltip_hide {
+  transform: translateX(-20px);
+}
+
+.button_show {
+  display: block;
+}
+
+.button_hide {
+  display: none;
+}
+
+#tooltip_container {
+  height: 100vh;
+  width: 400px;
+  position: fixed;
+  top: 0;
+  left: 100vw;
+  margin: auto;
+}
+
+#tooltip {
+  width: 95%;
+  height: 100%;
+  background-color: #000;
+  margin: 0px;
+  float: right;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 5%;
+}
+
+#tooltip_button {
+  margin-right: 95%;
+  width: 15%;
+  height: 48px;
+  line-height: 48px;
+  background-color: #000;
+  margin-top: 15px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 30px;
+}
+
+#tooltip_button:hover {
+  cursor: pointer;
+  background-color: #696969;
+}
+
+.leaflet-marker {
+  /* background-color: #74A9CF; */
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  left: -1rem;
+  top: -1rem;
+  position: relative;
+  border-radius: 2rem 2rem 0;
+  transform: rotate(45deg);
+  border: 1px dotted #FFFFFF
 }

@@ -18,6 +18,25 @@
         <input type="submit" value="Submit">
       </form>
     </div>
+    <div class="tooltip_container tooltip_hide" id="tooltip_container">
+      <div class="tooltip" id="tooltip"></div>
+      <div class="tooltip_button" id="tooltip_button">
+        <p class="button_show" id="button_left">&lsaquo;</p>
+        <p class="button_hide" id="button_right">&rsaquo;</p>
+      </div>
+      <script>
+      document.getElementById("tooltip_button").addEventListener("click",function() {
+        let tooltip_div = document.getElementById("tooltip_container").classList.toggle("tooltip_hide");
+        let button_right = document.getElementById("button_right"),
+            button_left = document.getElementById("button_left");
+
+        button_right.classList.toggle("button_show");
+        button_right.classList.toggle("button_hide")
+        button_left.classList.toggle("button_show")
+        button_left.classList.toggle("button_hide");
+      });
+      </script>
+    </div>
     <div class="leaflet_map" id="map">
       <script>
       init();
@@ -40,7 +59,7 @@
         let colors = ['#045A8D','#2B8CBE','#74A9CF','#A6BDDB','#D0D1E6']
         let mapMarkers = [];
 
-        {{{test}}}
+        {{{markers}}}
 
         function getMaxDistances(markerList) {
           let lldistanceList = [];
@@ -75,7 +94,8 @@
           `
           let myIcon = L.divIcon({
             className: "my-custom-pin",
-            html: '<span style="'+markerHTMLStyles+'" />',
+            // html: '<span style="'+markerHTMLStyles+'" />',
+            html: '<span class="leaflet-marker" style="background-color:'+colors[colIndex]+'" />',
             custom: 'this is a test'
           });
 
@@ -84,7 +104,15 @@
           let leaf = L.marker([lat,lon], {icon: myIcon}).addTo(map).on('click',onClick);
 
           function onClick() {
-            console.log("bind info to new div");
+            let tooltipHtml = '';
+            for (let a=0;a<marker.locations_json.length;a++) {
+              let locations = marker.locations_json[a];
+              tooltipHtml += '<h1>'+locations.location_name+'</h1>'
+              tooltipHtml += '<h2>'+locations.location_address+'</h2>'
+              tooltipHtml += '<h3>'+locations.location_addressdetail+'</h3>'
+            }
+            document.getElementById('tooltip').innerHTML = tooltipHtml;
+            console.log(tooltipHtml);
           }
         }
 
