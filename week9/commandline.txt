@@ -1,0 +1,4 @@
+ssh -i "ParticleTempPM2.pem" ec2-user@ec2-18-223-164-222.us-east-2.compute.amazonaws.com
+sudo yum install git
+exit
+pm2 deploy ecosystem.config.js production setup
