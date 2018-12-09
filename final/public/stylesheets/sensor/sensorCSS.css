@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+}
+
+.sensor-chart {
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+}
+
+.sensor-chart-title {
+  text-align: center;
+  padding-bottom: 50px;
+  max-width: 30rem;
+  margin: auto;
+}
+
+.temp-line {
+  fill: none;
+  stroke-width: 4px;
+}
+
+#inside-temp-line {
+  stroke: #3023AE;
+}
+
+#outside-temp-line {
+  stroke: #B4EC51;
+}
+
+.diff-rect {
+  fill: url(#linearGradient-1);
+}
+
+.axis-labels {
+  max-width: 100px;
+  position: absolute;
+  transform: translateY(50px);
+}
+
+.inside-label {
+  background-color: #3023AE;
+  color: #fff;
+}
+
+.outside-label {
+  background-color: #B4EC51;
+  color: #000;
+}
+
+.time-axis line, path.domain {
+  stroke: #979797;
+  stroke-width: .5px;
+  stroke-dasharray: 4;
+}
+
+.time-axis text {
+  text-anchor: end;
+  dx: -.8em;
+  dy: .15em;
+  transform: rotate(-45deg);
+}
+
+#axis-label-cel {
+  text-align: right;
+}

@@ -32,9 +32,4 @@ router.get('/diary', function(req, res, next) {
   res.render('diary', {title: 'Diary Interface'});
 });
 
-/* GET Sensor page. */
-router.get('/sensor', function(req, res, next) {
-  res.render('sensor', {title: 'Sensor Interface'});
-});
-
 module.exports = router;
