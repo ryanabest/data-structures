@@ -1,0 +1,122 @@
+* {
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+body {
+  padding: 0; margin: 0;
+}
+
+#buttons {
+  background-color: #000;
+  height: 60px;
+  width: 100vw;
+  margin-top: 0px;
+  padding: 0px;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  margin-top: 0;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+.diary-list {
+  max-width: 900px;
+  margin: auto;
+}
+
+.diary-list h1 {
+  font-family: 'Roboto Mono', monospace;
+}
+
+#diary-title h1 {
+  font-size: 72px;
+  color: #153E58;
+}
+
+#diary-title h2 {
+  font-size: 18px;
+  color: #000;
+  font-weight: 400;
+  letter-spacing: 1.04px;
+  text-align: center;
+}
+
+.diary-list h2, .diary-list p {
+  font-family: 'Roboto', sans-serif;
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed #153E58;
+}
+
+.diary-entry {
+  padding: 3rem;
+}
+
+.diary-title {
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+  /* margin-top: */
+}
+
+img.preview-img {
+  max-width: 800px;
+}
+
+.diary-entry h1 {
+  font-size: 36px;
+  color: #153E58;
+  letter-spacing: 0.9px;
+}
+
+.diary-entry h2 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
+  letter-spacing: 1.04px;
+}
+
+h2.publication {
+  font-weight: 700;
+}
+
+.diary-entry p {
+  font-size: 18px;
+  color: #000000;
+  letter-spacing: 1.04px;
+  text-align: center;
+}
+
+a.project-link {
+  font-family: 'Roboto Mono',monospace;
+  font-size: 18px;
+  color: #153E58;
+  letter-spacing: 1.04px;
+  text-align: center;
+  font-weight: 900;
+}
+
+a.project-link:hover {
+  color: #000;
+}
+
+a.twitter-link {
+  color: #000;
+  font-size: 48px;
+}
+
+a.twitter-link:hover {
+  color: #37A1F2;
+}
+
+::selection {
+  background: #e8e8e8; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #e8e8e8; /* Gecko Browsers */
+}

@@ -14,22 +14,4 @@ router.get('/', function(req, res, next) {
   `});
 });
 
-// AWS Connection
-function createClient() {
-  const client = new Client({
-    user: 'ryanabest',
-    host: 'datastructures.cbijimkrmieh.us-east-1.rds.amazonaws.com',
-    database: 'datastructures',
-    password: process.env.AWS_PW,
-    port: 5432,
-  });
-
-  return client;
-}
-
-/* GET Diary page. */
-router.get('/diary', function(req, res, next) {
-  res.render('diary', {title: 'Diary Interface'});
-});
-
 module.exports = router;

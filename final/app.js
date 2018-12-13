@@ -1,16 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors'),
+      express = require('express'),
+      path = require('path'),
+      cookieParser = require('cookie-parser'),
+      logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var endpointsRouter = require('./routes/endpoints');
-var aaRouter = require('./routes/aa');
-var sensorRouter = require('./routes/sensor');
-
-var app = express();
+const indexRouter = require('./routes/index'),
+      usersRouter = require('./routes/users'),
+      endpointsRouter = require('./routes/endpoints'),
+      aaRouter = require('./routes/aa'),
+      sensorRouter = require('./routes/sensor'),
+      diaryRouter = require('./routes/diary'),
+      app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +27,7 @@ app.use('/endpoints', endpointsRouter);
 app.use('/users', usersRouter);
 app.use('/aa', aaRouter);
 app.use('/sensor', sensorRouter);
+app.use('/diary', diaryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
