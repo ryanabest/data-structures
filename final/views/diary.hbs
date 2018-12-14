@@ -8,15 +8,7 @@
   </head>
   <body>
     <div id="buttons">
-      <form method="POST" class="select-button">
-        <input type="submit" name="vizType" value="INTERACTIVE VIZ"/>
-      </form>
-      <form method="POST" class="select-button">
-        <input type="submit" name="vizType" value="STATIC VIZ"/>
-      </form>
-      <form method="POST" class="select-button">
-        <input type="submit" name="vizType" value="PORTFOLIO"/>
-      </form>
+      {{{buttons}}}
     </div>
     <div id="diary-list" class="diary-list">
       <div id="diary-title" class="diary-title">
@@ -31,7 +23,7 @@
     {{{diary}}}
     let diaryDiv = document.getElementById("diary-list");
     diaryData.forEach( (entry,i) => {
-      console.log(entry);
+      // console.log(entry);
 
       // INITIALIZE HTML
       let innerHTML = "<hr><div class='diary-entry' id='diary-entry-" + i + "'>";

@@ -21,7 +21,29 @@ body {
   margin-top: 0;
   margin-right:auto;
   margin-left:auto;
+  display: flex;
+  justify-content: center;
 }
+
+.select-button input {
+  border: none;
+  background-color: #000;
+  font-family: 'Roboto Mono',monospace;
+  font-size: 14px;
+  color: #969696;
+  letter-spacing: 1.04px;
+  text-align: center;
+  padding: 0 40px;
+  line-height: 60px;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+.select-button input:hover, .active input {
+  color: #fff;
+}
+
+
 
 .diary-list {
   max-width: 900px;
@@ -92,6 +114,14 @@ h2.publication {
   text-align: center;
 }
 
+.diary-entry a {
+  color: #153E58;
+}
+
+.diary-entry a:hover {
+  color: #000;
+}
+
 a.project-link {
   font-family: 'Roboto Mono',monospace;
   font-size: 18px;
@@ -113,6 +143,7 @@ a.twitter-link {
 a.twitter-link:hover {
   color: #37A1F2;
 }
+
 
 ::selection {
   background: #e8e8e8; /* WebKit/Blink Browsers */

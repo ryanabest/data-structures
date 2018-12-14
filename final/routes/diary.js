@@ -11,7 +11,33 @@ AWS.config.secretAccessKey = process.env.AWS_KEY;
 AWS.config.region = "us-east-1";
 const dynamodb = new AWS.DynamoDB();
 
+let vizTypeDefault = "interactive viz";
+
+function writeButtons(vizType) {
+  let intClass = "select-button",
+      staticClass = "select-button",
+      portClass = "select-button";
+
+  if (vizType === "interactive viz") { intClass += " active" }
+  else if (vizType === "static viz") { staticClass += " active" }
+  else if (vizType === "portfolio")  { portClass += " active" };
+  return `
+  <form method="POST" class="` + intClass + `">
+    <input type="submit" name="vizType" value="INTERACTIVE VIZ"/>
+  </form>
+  <form method="POST" class="` + staticClass + `">
+    <input type="submit" name="vizType" value="STATIC VIZ"/>
+  </form>
+  <form method="POST" class="` + portClass + `">
+    <input type="submit" name="vizType" value="PORTFOLIO"/>
+  </form>
+  `
+}
+
 router.get('/', function(req, res) {
+  let vizType = vizTypeDefault,
+      buttons = writeButtons(vizType);
+
   // DynamoDB (NoSQL) query
   let params = {
       TableName : "deardiary_viz",
@@ -42,14 +68,15 @@ router.get('/', function(req, res) {
             return a>b ? -1 : a<b ? 1 : 0;
           })
           diaryData.forEach(d => diary+='diaryData.push('+JSON.stringify(d)+');');
-          res.render('diary', {title: 'Diary Interface', diary: diary});
+          res.render('diary', {title: 'Diary Interface - ' + vizType.toUpperCase(), diary: diary, buttons: buttons, vizType: vizType});
           console.log('Responded to Diary Request');
       }
   });
 });
 
 router.post('/', function(req,res) {
-  let vizType = req.body.vizType.toLowerCase();
+  let vizType = req.body.vizType.toLowerCase(),
+      buttons = writeButtons(vizType);
 
   // DynamoDB (NoSQL) query
   let params = {
@@ -81,7 +108,7 @@ router.post('/', function(req,res) {
             return a>b ? -1 : a<b ? 1 : 0;
           })
           diaryData.forEach(d => diary+='diaryData.push('+JSON.stringify(d)+');');
-          res.render('diary', {title: 'Diary Interface', diary: diary});
+          res.render('diary', {title: 'Diary Interface - ' + vizType.toUpperCase(), diary: diary, buttons: buttons, vizType: vizType});
           console.log('Responded to Diary Request');
       }
   });
