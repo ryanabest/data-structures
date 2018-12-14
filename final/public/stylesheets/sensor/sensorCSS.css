@@ -12,13 +12,18 @@
 .sensor-chart-title {
   text-align: center;
   padding-bottom: 50px;
-  max-width: 30rem;
+  max-width: 40rem;
   margin: auto;
+  font-family: "RobotoSlab-Bold";
+  font-size: 38px;
+  color: #000000;
+  letter-spacing: 0.17px;
+  text-align: center;
 }
 
 .temp-line {
   fill: none;
-  stroke-width: 4px;
+  stroke-width: 6px;
 }
 
 #inside-temp-line {
@@ -36,7 +41,11 @@
 .axis-labels {
   max-width: 100px;
   position: absolute;
-  transform: translateY(50px);
+  transform: translateY(80px);
+  font-family: "Roboto-Bold";
+  font-size: 17px;
+  color: #000000;
+  letter-spacing: 0.08px;
 }
 
 .inside-label {
