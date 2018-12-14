@@ -8,20 +8,44 @@ p {
 
 #header {
   position: fixed;
+  top:  50px;
+  left: 50px;
+  background-color: rgba(0,0,0,.3);
+  padding: 20px;
 }
 
 #header p {
   display: inline;
 }
 
+#header h1 {
+  font-family: "Lora-Bold";
+  font-size: 62px;
+  color: #FFFFFF;
+  letter-spacing: 0.21px;
+  margin: 0;
+}
+
+span#meeting-finder {
+  font-family: "Lora-Bold";
+  font-size: 28px;
+  color: #FFFFFF;
+  letter-spacing: 7px;
+}
+
 #header input {
-  color: #fff;
   background: none;
   border: none;
   text-align: center;
   cursor: pointer;
   border-bottom: 2px dotted white;
-  font-size: 120%;
+}
+
+#header p, #header input {
+  font-family: "Roboto-Bold";
+  font-size: 18px;
+  color: #FFFFFF;
+  letter-spacing: 0.59px;
 }
 
 #map {

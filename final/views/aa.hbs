@@ -2,21 +2,22 @@
 <html>
   <head>
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/leaflet.css'/>
     <link rel='stylesheet' href='/stylesheets/aa/aaCSS.css'/>
+    <link href="https://fonts.googleapis.com/css?family=Lora|Roboto" rel="stylesheet">
     <script src="/libraries/leaflet.js"></script>
   </head>
   <body>
     <div id="header">
+      <h1>Alcoholoics Anonymous <span id="meeting-finder">MEETING FINDER</span></h1>
       <form id="user_param_form" class="user_param_form" method="POST">
         <p>I need any meeting in the next</p>
         <input type="number" name="hours" min="0" max="72" step="0.5" value={{hours}} />
         <p>hours within</p>
         <input type="number" name="miles" min="0" max="10" step="0.1" value={{miles}} />
         <p>miles of Parsons</p>
-        <br>
-        <input type="submit" id="submit_input" value="Show Me These Meetings->">
+        <!-- <br> -->
+        <input type="submit" id="submit_input" value="-->">
       </form>
     </div>
     <div class="tooltip_container tooltip_hide" id="tooltip_container">
@@ -190,7 +191,6 @@
           let marker = mapIcons[mi];
           let pos = map.latLngToLayerPoint(marker.getLatLng()).round()
           if (marker._icon.firstChild.classList.contains('leaflet-marker-active')) {marker.setZIndexOffset(999999 - pos.y);}
-          // else {marker.setZIndexOffset(100 - pos.y);}
         }
         let thisMarker = document.getElementsByClassName('leaflet-marker-active')[0];
       }
