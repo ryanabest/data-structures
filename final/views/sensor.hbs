@@ -5,6 +5,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/sensor/sensorCSS.css'/>
     <script src="/libraries/d3.min.js"></script>
+    <script src="/libraries/moment.min.js"></script>
   </head>
   <body>
     <div class="sensor-chart" id="sensor-chart">
@@ -14,6 +15,14 @@
         </div>
         <div id="axis-label-far" class="axis-labels">
           <p>Temperature <span class="inside-label">Inside</span>&nbsp;/ <span class="outside-label">Outside</span> </p>
+        </div>
+        <div id="tooltip">
+          <div id="tooltip-text">
+            <h1 id="tooltip-h1"></h1>
+            <p id="tooltip-inside"></p>
+            <p id="tooltip-outside"></p>
+            <p id="tooltip-diff"></p>
+          </div>
         </div>
         <h1 class="sensor-chart-title">How Well Insulated Am I From The Temperature&nbsp;Outside?</h1>
         <svg class="sensor-svg">
@@ -33,7 +42,8 @@
           svg = chart.select("svg"),
           axis_g = svg.append("g").attr("id","axis-g"),
           line_g = svg.append("g").attr("id","line-g"),
-          bar_g = svg.append("g").attr("id","bar-g");
+          bar_g = svg.append("g").attr("id","bar-g"),
+          hover_g = svg.append("g").attr("id","hover-g");
 
     init()
 
@@ -59,11 +69,10 @@
                              .attr("class","temp-line")
                              .attr("id","inside-temp-line");
 
-     let outsideLine = line_g.append("path")
-                             .datum(sensorData)
-                             .attr("class","temp-line")
-                             .attr("id","outside-temp-line");
-
+      let outsideLine = line_g.append("path")
+                              .datum(sensorData)
+                              .attr("class","temp-line")
+                              .attr("id","outside-temp-line");
       let diffBars = bar_g.selectAll("rect")
                           .data(sensorData)
                           .enter()
@@ -71,12 +80,24 @@
                           .attr("class",d => "diff-rect diff-rect-"+d.year+"-"+d.month+"-"+d.day)
                           .attr("id",d => "diff-rect-"+d.year+"-"+d.month+"-"+d.day+"-"+d.hour);
 
+      let hoverCircleTop = hover_g.append('circle')
+                                  .attr("class","hover-circle")
+                                  .attr("id","hover-circle-top")
+
+      let hoverCircleBot = hover_g.append('circle')
+                                  .attr("class","hover-circle")
+                                  .attr("id","hover-circle-bot")
+
+      let overlayRect = hover_g.append('rect')
+                               .attr('class', 'overlay')
+
       window.addEventListener("resize", function() { resize(sensorData); });
       render(sensorData);
     }
 
     function render(sensorData) {
       let w = document.getElementById("sensor-chart-inner").offsetWidth,
+          h = document.getElementById("sensor-chart-inner").offsetHeight,
           margin = {top: 20, right: 100, bottom: 100, left: 100},
           height = (window.innerHeight * 0.9),
           tempMin = d3.min(sensorData, d => Math.min(d.inside_temp,d.outside_temp)),
@@ -90,7 +111,7 @@
           x = d3.scaleTime().domain([new Date(minDate),new Date(maxDate)]).range([margin.left,w-margin.right]),
           insideLine =  d3.line().x(function(d) { return x(new Date(d.date_stamp)); }).y(function(d) { return yCel(d.inside_temp) }).curve(d3.curveMonotoneX),
           outsideLine = d3.line().x(function(d) { return x(new Date(d.date_stamp)); }).y(function(d) { return yCel(d.outside_temp) }).curve(d3.curveMonotoneX),
-          barW = (w-margin.right-margin.left)/(sensorData.length + 500);
+          barW = (w-margin.right-margin.left)/(sensorData.length);
 
       let maxDiffPixels;
 
@@ -103,28 +124,90 @@
       axes();
       axisLabels();
       barsAndLines();
+      hoverRect(x,yCel);
+
+      function hoverRect(x,yCel) {
+        d3.selectAll('.overlay')
+          .attr('width', w-margin.left-margin.right)
+          .attr('height', height-margin.top-margin.bottom)
+          .attr('x',margin.left)
+          .attr('y',margin.top)
+          .style('pointer-events','all')
+          .on('mouseenter', function() {
+            d3.select("#tooltip").style('display', 'inline');
+            d3.selectAll(".hover-circle").style('display', 'inline');
+          })
+          .on('mouseleave', function() {
+            d3.select("#tooltip").style('display', 'none');
+            d3.selectAll(".hover-circle").style('display', 'none');
+          })
+          .on('mousemove', mousemove);
+
+        function mousemove() {
+          let xPos = moment(x.invert(d3.mouse(this)[0])).startOf('hour').toString();
+          for (let s=0;s<sensorData.length;s++) {
+            let d = sensorData[s];
+            if (Date.parse(xPos) === Date.parse(new Date(d.date_stamp))) {
+              // TOOLTIP
+              let tooltipText = d3.select("#tooltip").select("#tooltip-text");
+              let insideEst = '';
+              if (d.estimated === 1) { insideEst = ' (est.)'} else { insideEst = '' };
+              tooltipText.select("#tooltip-h1").html(moment(new Date(d.date_stamp)).format("MMM Do, YYYY h:mm a"));
+              tooltipText.select("#tooltip-inside").html("<i>Inside Temp"+insideEst+":</i> " + d.inside_temp.toFixed(2)+ "&#176;C / " + celToFar(d.inside_temp).toFixed(2) + "&#176;F");
+              tooltipText.select("#tooltip-outside").html("<i>Outside Temp:</i> " + d.outside_temp.toFixed(2)+ "&#176;C / " + celToFar(d.outside_temp).toFixed(2) + "&#176;F");
+              tooltipText.select("#tooltip-diff").html("<i>Difference:</i> " + d.temp_diff.toFixed(2)+ "&#176;C / " + celToFar(d.temp_diff).toFixed(2) + "&#176;F");
+
+              // CIRCLES
+              d3.select("#hover-circle-top").attr("cx",x(new Date(d.date_stamp))).attr("cy",yCel(d.inside_temp));
+              d3.select("#hover-circle-bot").attr("cx",x(new Date(d.date_stamp))).attr("cy",yCel(d.outside_temp));
+            }
+          }
+          let tooltip = d3.select("#tooltip");
+
+          // MOVE TOOLTIP
+          if (d3.mouse(this)[0]/w <= .5) {
+            tooltip.style("left",(event.clientX + 15) + "px");
+          } else {
+            let left = event.clientX - tooltip.node().getBoundingClientRect().width - 15
+            tooltip.style("left",left + "px");
+          }
+
+          if (d3.mouse(this)[1]/(height-margin.top-margin.bottom) <= .5) {
+            tooltip.style("top",(event.clientY + 15) + "px")
+          } else {
+            let top = event.clientY - tooltip.node().getBoundingClientRect().height - 15
+            tooltip.style("top",top + "px");
+          }
+
+          //
+
+        }
+      }
 
       function barsAndLines() {
         svg.attr("width",w).attr("height",height);
-        d3.select("#inside-temp-line").attr("d",d => insideLine(d));
-        d3.select("#outside-temp-line").attr("d",d => outsideLine(d));
+
+        d3.select("#inside-temp-line")
+          .attr("d",d => insideLine(d));
+
+        d3.select("#outside-temp-line")
+          .attr("d",d => outsideLine(d));
+
         d3.selectAll(".diff-rect")
           .style("x", d => x(new Date(d.date_stamp)))
           .style("y", d => yCel(d.inside_temp))
           .style("width",barW)
-          .style("height",d => barH(d.temp_diff));
+          .style("height",d => barH(d.temp_diff))
       }
 
       function axes() {
         let rightAxis = d3.select("#temp-axis-far")
                           .call(d3.axisRight(yFar))
-                          .attr("transform", "translate(" + (w-margin.right) + " ,0)")
-                          // .select('.domain').remove();
+                          .attr("transform", "translate(" + (w-margin.right) + " ,0)");
 
         let leftAxis = svg.select("#temp-axis-cel")
                           .call(d3.axisLeft(yCel))
-                          .attr("transform", "translate(" + (margin.left) + " ,0)")
-                          // .select('.domain').remove();
+                          .attr("transform", "translate(" + (margin.left) + " ,0)");
 
         let timeAxis = svg.select("#time-axis")
                           .call(d3.axisBottom(x)
@@ -136,7 +219,6 @@
 
         d3.select("#temp-axis-far").selectAll(".tick").selectAll("line").remove();
         d3.select("#temp-axis-cel").selectAll(".tick").selectAll("line").remove();
-        // d3.select("#time-axis").selectAll(".tick").selectAll("line").remove();
 
         let fTicks = d3.select("#temp-axis-far").selectAll(".tick").selectAll("text");
         fTicks._groups[fTicks._groups.length-1][0].innerHTML = fTicks._groups[fTicks._groups.length-1][0].innerHTML += ' &#176;F'

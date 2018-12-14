@@ -71,6 +71,41 @@
   transform: rotate(-45deg);
 }
 
+rect.overlay {
+  fill: none;
+  /* 'pointer-events': 'all'; */
+}
+
 #axis-label-cel {
   text-align: right;
+}
+
+#tooltip {
+  position: fixed;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+
+#tooltip h1 {
+  font-family: "RobotoSlab-Bold";
+  font-size: 28px;
+  letter-spacing: 0.17px;
+}
+
+#tooltip p {
+  font-family: "Roboto-Bold";
+  font-size: 17px;
+  letter-spacing: 0.08px;
+  line-height: 10px;
+}
+
+circle.hover-circle {
+  display: none;
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+  r: 10;
+  stroke-dasharray: 2;
 }

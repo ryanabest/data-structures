@@ -49,22 +49,12 @@ router.get('/', function(req, res, next) {
 
 function sensorQuery() {
   return `
-  WITH AVG_HOUR as (
-    SELECT date_part('hour',datetime) as darksky_hour, count(*) as darksky_count, avg(temperature) as darksky_temp_avg
-    FROM darksky_hour
-    GROUP BY 1 ORDER BY 1
-    )
-
-    , DATES as (
+  WITH DATES as (
     SELECT
-      DISTINCT date_trunc('day',p.last_heard) as day
-      ,d.hour - 1 as hour
-      ,date_trunc('day',p.last_heard) + interval '1h' * (d.hour-1) as date_stamp
-    FROM particle_temperature p
-    JOIN (SELECT ROW_NUMBER() OVER () as hour
-    FROM particle_temperature
-    LIMIT 24) d
-      ON (1=1))
+     date_trunc('day',d.datetime) as day
+     ,date_part('hour',d.datetime)::int as hour
+     ,date_trunc('hour',d.datetime) as date_stamp, *
+    FROM darksky_hour d)
 
     , AVERAGES as (
     SELECT * FROM (
