@@ -115,13 +115,13 @@ function aaQuery(hours,miles) {
     )
 
     , TODAYS_MEETINGS as (
-    SELECT *, lldistance(m.lat,m.lon,40.7353555,-73.9940603) as lldistance
+    SELECT *, lldistance(m.lat,m.lon,40.7354868,-73.9935562) as lldistance
     FROM MEETINGS m
     JOIN TODAY t
       ON UPPER(m.meetingday) LIKE '%'||t.day||'%'
       AND t.earliest_time <= m.meetingstarttime_raw
       AND t.latest_time >= m.meetingstarttime_raw
-    WHERE lldistance(m.lat,m.lon,40.7353003,-73.9967813) <= `+miles+`
+    WHERE lldistance(m.lat,m.lon,40.7354868,-73.9935562) <= `+miles+`
     )
 
     , TODAYS_MEETING_SCHEDULE as (
