@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const request = require('request');
 const { Client } = require('pg');
 const defaultHours = 48;
 const defaultMiles = 2;
