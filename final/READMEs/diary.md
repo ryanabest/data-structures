@@ -2,7 +2,7 @@
 This project combines weekly assignments
 [5](https://github.com/ryanabest/data-structures/tree/master/week5), [6](https://github.com/ryanabest/data-structures/tree/master/week6), [7](https://github.com/ryanabest/data-structures/tree/master/week7), [10](https://github.com/ryanabest/data-structures/tree/master/final) _(contained within final project folder in 'endpoints' files)_, and [11](https://github.com/ryanabest/data-structures/tree/master/week11) to produce a blog-style web interface cataloging some of my favorite data visualizations and portfolio using a semi-structured, qualitative [data structure](https://github.com/ryanabest/data-structures/blob/master/week5/data-structures_week5.md).
 
-[Final Interface](http://data-structures-final-dev.us-east-1.elasticbeanstalk.com/diary)
+__[Final Interface](http://data-structures-final-dev.us-east-1.elasticbeanstalk.com/diary)__
 
 ## User Needs and Assumptions
 This project is designed to be a simple running list of entries with a broad overview of the specific entry, essentially giving a broad sense of what the entry is and why I wanted to include it. The most important information to relay to users of this interface are:
