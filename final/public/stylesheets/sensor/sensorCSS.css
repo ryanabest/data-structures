@@ -23,7 +23,7 @@
 
 .temp-line {
   fill: none;
-  stroke-width: 6px;
+  stroke-width: 8px;
 }
 
 #inside-temp-line {
@@ -86,6 +86,7 @@ rect.overlay {
   display: none;
   color: #fff;
   padding: 0.5rem 1rem;
+  border-radius: 10px;
 }
 
 #tooltip h1 {

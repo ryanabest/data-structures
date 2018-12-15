@@ -64,6 +64,13 @@
                       .attr("class","axis time-axis")
                       .attr("id","time-axis");
 
+      let diffBars = bar_g.selectAll("rect")
+                          .data(sensorData)
+                          .enter()
+                          .append("rect")
+                          .attr("class",d => "diff-rect diff-rect-"+d.year+"-"+d.month+"-"+d.day)
+                          .attr("id",d => "diff-rect-"+d.year+"-"+d.month+"-"+d.day+"-"+d.hour);
+
       let insideLine = line_g.append("path")
                              .datum(sensorData)
                              .attr("class","temp-line")
@@ -73,12 +80,6 @@
                               .datum(sensorData)
                               .attr("class","temp-line")
                               .attr("id","outside-temp-line");
-      let diffBars = bar_g.selectAll("rect")
-                          .data(sensorData)
-                          .enter()
-                          .append("rect")
-                          .attr("class",d => "diff-rect diff-rect-"+d.year+"-"+d.month+"-"+d.day)
-                          .attr("id",d => "diff-rect-"+d.year+"-"+d.month+"-"+d.day+"-"+d.hour);
 
       let hoverCircleTop = hover_g.append('circle')
                                   .attr("class","hover-circle")
