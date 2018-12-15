@@ -24,7 +24,9 @@ function init() {
   // let vizEntries = dayInTheLife();
   // let vizEntries = loadFirstVizEntries();
   // let vizEntries = loadStaticAndPortfolioEntries();
-  let vizEntries = loadTruthAndBeauty();
+  // let vizEntries = loadTruthAndBeauty();
+  // let vizEntries = loadInteractivesOne();
+  let vizEntries = loadInteractivesTwo();
   // console.log(vizEntries);
   loadEntries(vizEntries);
 }
@@ -53,6 +55,115 @@ function loadEntries(vizEntries) {
       else     console.log(data);           // successful response
     });
   }
+}
+
+function loadInteractivesTwo() {
+  let vizEntries = [];
+
+  vizEntries.push( new vizEntry(
+    "The Differences in How CNN, MSNBC, & Fox Cover the News",
+    new Date("12/1/2018 16:00"),
+    "interactive viz",
+    {
+      publication: {S: "The Pudding"},
+      author: {S: "Charlie Smart"},
+      picture: {S: "https://github.com/ryanabest/data-structures/blob/master/week5/examples/PuddingNews.png?raw=true"},
+      tags: { SS: ["news","politics","scrollytelling","narrative","explorative"]},
+      thoughts: {L: [
+        {S: "This piece does a great job of combining narrative data viz storytelling with opportunities for exploration. It's not easy to combine explorative and narrative in one piece, but this piece takes advantage of effective scrollytelling to show examples of how a user might explore each viz. I also particularly like the triangle scatterplot – it does a great job at visually demonstrating the relative tendencies of each news outlet."}
+      ]},
+      link: {S: "https://pudding.cool/2018/01/chyrons/"}
+    }
+  ));
+
+  vizEntries.push( new vizEntry(
+    "Inside Kyrie Irving's Bag of Tricks",
+    new Date("12/1/2018 16:30"),
+    "interactive viz",
+    {
+      publication: {S: "ESPN"},
+      author: {S: "Chris Forsberg"},
+      picture: {S: "http://a.espncdn.com/prod/styles/pagetype/otl/20181009_kyrieHandles/images/kyrie_desktop.gif"},
+      tags: {SS: ["sports","animation","basketball"]},
+      thoughts: {L: [
+        {S: "I love the animations in this piece, showing abstractions of Kyrie Irving's exciting ball-handling skills. The piece effectively combines data visualization, animations, and in-game videos to paint a full picture of Irving's unique talent. However, I do think the interactive portion of the visualizations would work better as static - either through animation or a small multiples approach."}
+      ]},
+      link: {S: "http://www.espn.com/espn/feature/story/_/id/24504654/kyrie-irving-art-sick-handles-nba"}
+    }
+  ));
+
+  vizEntries.push( new vizEntry(
+    "Tracing the History of N.C.A.A. Conferences",
+    new Date("12/1/2018 17:00"),
+    "interactive viz",
+    {
+      publication: {S:"New York Times"},
+      author: {SS: ["Mike Bostock","Shan Carter","Kevin Quealy"]},
+      picture: {S: "http://graphics8.nytimes.com/newsgraphics/2013/11/30/football-conferences/71f2918fd830772afcf6433ebc6744b4e38ef94e/preview.png"},
+      tags: {SS: ["sports","bostock"]},
+      thoughts: {L: [
+        {S: "The visualization technique here of a moving timeline with schools switching conferences in purple arrows is simple but effective at giving the landscape of conference sizes and movement over time. I particularly enjoy the hover and search bar to highlight a team and the narrative call-outs explaining interesting movements. The in-line bar chart demonstrating the decline in unaffiliated schools in the project intro is also a wonderfully subtle data viz nugget."}
+      ]},
+      link: {S: "http://www.nytimes.com/newsgraphics/2013/11/30/football-conferences/index.html"}
+    }
+  ));
+
+  return vizEntries;
+}
+
+function loadInteractivesOne() {
+  let vizEntries = [];
+
+  vizEntries.push( new vizEntry(
+    "The Birthday Paradox",
+    new Date("2018-11-29 19:00"),
+    "interactive viz",
+    {
+      publication: {S: "The Pudding"},
+      author: {S: "Russell Goldenberg"},
+      link: {S: "https://pudding.cool/2018/04/birthday-paradox/"},
+      social: {S: "https://twitter.com/puddingviz/status/983329526779392001"},
+      picture: {S: "https://pudding.cool/2018/04/birthday-paradox/assets/img/birthday-intro.png"},
+      tags: {SS: ["animation","experiment","mathematics","anthropomorphism","crowd source","community"]},
+      thoughts: {L: [
+        {S: "This wonderful interactive experiment explains the mathematical concepts behind the statistical 'birthday paradox' with delightful animations. It also incorporates the interactions of past users to play out the concepts it explains in real time, which helps makes the piece feel really personal and engaging."}
+        ,{S: "I love pretty much everything the Pudding produces, and this is one of the first pieces that got me excited about the site"}
+      ]}
+    }
+  ));
+
+  vizEntries.push( new vizEntry(
+    "Gridlock in the Sky",
+    new Date("2018-11-29 19:30"),
+    "interactive viz",
+    {
+      publication: {S: "The Washington Post"},
+      author: {SS: ["Chris Davenport","John Muyskens","Youjin Shin","Monica Ulmanu"]},
+      social: {S: "https://twitter.com/JohnMuyskens/status/1072873947622973440"},
+      link: {S: "wapo.st/busy-sky"},
+      thoughts: { L: [
+        {S: "This project maps how commercial rocket launches cause airlines to divert their paths, which causes delays in air traffic and increases fuel consumption, in a really compelling 3-D animation of individual flights around a specific SpaceX launch off the coast of Florida. The panning zoom in and out of the globe on scroll and animated flight paths / rocket launch paths is super successful in both telling this specific story and thoroughly impressing me from both a technology and design standpoint."}
+      ]}
+    }
+  ));
+
+  vizEntries.push (new vizEntry(
+    "How Much Warmer Was Your City in 2017?",
+    new Date("2018-11-29 20:00"),
+    "interactive viz",
+    {
+      publication: {S: "New York Times"},
+      author: {S: "K.K. Rebecca Lai"},
+      link: {S: "https://www.nytimes.com/interactive/2018/01/21/world/year-in-weather.html#nyc"},
+      picture: {S: "https://pbs.twimg.com/card_img/1070631277546668034/RKSbCx6i?format=jpg&name=600x314"},
+      tags: {SS: ["weather","classic","dense"]},
+      thoughts: {L: [
+        {S: "This reworking of the classic NYT graphic is still one of the more data dense visualizations I've ever seen, containing record high/low temps, normal high/low temps, actual high/low temps, and monthly precipitation all in one graphic. The subtle animations go a long way as well – the moving globe and object permanance of the visualization make for a really nice interative experience."}
+      ]}
+    }
+  ));
+
+  return vizEntries;
 }
 
 function loadStaticAndPortfolioEntries() {
