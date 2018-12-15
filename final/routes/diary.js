@@ -43,15 +43,14 @@ router.get('/', function(req, res) {
       TableName : "deardiary_viz",
       KeyConditionExpression: `
         #typ = :topicName
-        and #dt between :minDate and :maxDate`, // the query expression
+        and #dt >= :minDate`, // the query expression
       ExpressionAttributeNames: { // name substitution, used for reserved words in DynamoDB
           "#typ" : "type",
           "#dt"  : "date"
       },
       ExpressionAttributeValues: { // the query values
           ":topicName": {S: "interactive viz"},
-          ":minDate": {S: new Date("October 1, 2018").toLocaleDateString()},
-          ":maxDate": {S: new Date("December 31, 2018").toLocaleDateString()}
+          ":minDate": {S: new Date("October 1, 2018").toLocaleDateString()}
       }
   };
 
@@ -83,15 +82,14 @@ router.post('/', function(req,res) {
       TableName : "deardiary_viz",
       KeyConditionExpression: `
         #typ = :topicName
-        and #dt between :minDate and :maxDate`, // the query expression
+        and #dt >= :minDate`, // the query expression
       ExpressionAttributeNames: { // name substitution, used for reserved words in DynamoDB
           "#typ" : "type",
           "#dt"  : "date"
       },
       ExpressionAttributeValues: { // the query values
           ":topicName": {S: vizType},
-          ":minDate": {S: new Date("October 1, 2018").toLocaleDateString()},
-          ":maxDate": {S: new Date("December 31, 2018").toLocaleDateString()}
+          ":minDate": {S: new Date("October 1, 2018").toLocaleDateString()}
       }
   };
 
