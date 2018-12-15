@@ -112,7 +112,7 @@
           x = d3.scaleTime().domain([new Date(minDate),new Date(maxDate)]).range([margin.left,w-margin.right]),
           insideLine =  d3.line().x(function(d) { return x(new Date(d.date_stamp)); }).y(function(d) { return yCel(d.inside_temp) }).curve(d3.curveMonotoneX),
           outsideLine = d3.line().x(function(d) { return x(new Date(d.date_stamp)); }).y(function(d) { return yCel(d.outside_temp) }).curve(d3.curveMonotoneX),
-          barW = (w-margin.right-margin.left)/(sensorData.length);
+          barW = (w-margin.right-margin.left)/(sensorData.length+ 500);
 
       let maxDiffPixels;
 
