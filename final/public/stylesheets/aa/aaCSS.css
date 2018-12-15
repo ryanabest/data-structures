@@ -95,6 +95,62 @@ span#meeting-finder {
   overflow: auto;
 }
 
+#tooltip h1 {
+  font-family: "Lora-Bold";
+  font-size: 32px;
+  letter-spacing: 0.16px;
+  margin: 15px 0;
+}
+
+#tooltip h2 {
+  font-family: "Roboto-Regular";
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.13px;
+  margin: 15px 0;
+}
+
+#tooltip h3 {
+  font-family: "Roboto-Regular";
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.13px;
+  margin: 15px 0;
+}
+
+#tooltip hr {
+  border: 0.5px dotted #FFFFFF;
+  margin: 15px 0;
+}
+
+#tooltip h4 {
+  font-family: "Roboto";
+  font-size: 18px;
+  letter-spacing: 0.13px;
+  margin: 10px 0;
+}
+
+h4.meeting_name {
+  font-weight: 700;
+}
+
+h4.meeting_type {
+  font-style: italic;
+  font-weight: 400;
+}
+
+h4.meeting_schedule {
+  font-weight: 400;
+}
+
+#tooltip p {
+  font-family: "Roboto";
+  font-size: 14px;
+  color: #FFFFFF;
+  letter-spacing: 0.13px;
+  margin: 5px 0;
+}
+
 #tooltip_button {
   margin-right: 95%;
   width: 15%;
@@ -114,38 +170,38 @@ span#meeting-finder {
 
 .leaflet-marker {
   /* background-color: #74A9CF; */
-  width: 2rem;
-  height: 2rem;
+  width: 1.25vw;
+  height: 1.25vw;
   display: block;
-  left: -1rem;
-  top: -1rem;
+  left: -0.625vw;
+  top: -1.25vw;
   position: relative;
-  border-radius: 2rem 2rem 0;
+  border-radius: 0.625vw 0.625vw 0;
   transform: rotate(45deg);
   border: 1px solid #FFFFFF;
 }
 
 #current-leaflet-marker {
   background-color: #FA8072;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25vw;
+  height: 1.25vw;
   display: block;
-  left: -0.75rem;
-  top: -0.75rem;
+  left: -0.625vw;
+  top: -1.25vw;
   position: relative;
-  border-radius: 1.5rem 1.5rem 0;
+  border-radius: 0.625vw 0.625vw 0;
   transform: rotate(45deg);
   border: 1px solid #FFFFFF;
 }
 
 .leaflet-marker-active {
-  width: 3rem;
-  height: 3rem;
+  width: 2vw;
+  height: 2vw;
   display: block;
-  left: -1.5rem;
-  top: -1.5rem;
+  left: -1vw;
+  top: -2vw;
   position: relative;
-  border-radius: 3rem 3rem 0;
+  border-radius: 2vw 2vw 0;
   transform: rotate(45deg);
   border: 5px solid #FA8072;
 }

@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="header">
-      <h1>Alcoholoics Anonymous <span id="meeting-finder">MEETING FINDER</span></h1>
+      <h1>Alcoholics Anonymous <span id="meeting-finder">MEETING FINDER</span></h1>
       <form id="user_param_form" class="user_param_form" method="POST">
         <p>I need any meeting in the next</p>
         <input type="number" name="hours" min="0" max="72" step="0.5" value={{hours}} />
@@ -17,7 +17,7 @@
         <input type="number" name="miles" min="0" max="10" step="0.1" value={{miles}} />
         <p>miles of Parsons</p>
         <!-- <br> -->
-        <input type="submit" id="submit_input" value="-->">
+        <input type="submit" id="submit_input" value="&#8594;">
       </form>
     </div>
     <div class="tooltip_container tooltip_hide" id="tooltip_container">
@@ -55,7 +55,10 @@
       function init() {
         let myLat = 40.7353555;
         let myLng = -73.9940603;
-        let map = L.map('map').setView([myLat, myLng], 13);
+        let m = {{miles}} * 2000;
+        console.log(m);
+        let bounds = L.latLng(myLat,myLng).toBounds(m);
+        let map = L.map('map').fitBounds(bounds);
         leafletMap(map);
         myLocation(map,myLat,myLng);
         let mapIcons = [];
@@ -74,7 +77,7 @@
       function myLocation(map,myLat,myLng) {
         let myIcon = L.divIcon({
           className: "current-location",
-          // html: '<span style="'+markerHTMLStyles+'" />',
+          iconAnchor: [0,0],
           html: '<span class="leaflet-marker" id="current-leaflet-marker" />'
         });
 
