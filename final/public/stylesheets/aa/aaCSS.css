@@ -20,7 +20,7 @@ p {
 
 #header h1 {
   font-family: "Lora-Bold";
-  font-size: 62px;
+  font-size: 48px;
   color: #FFFFFF;
   letter-spacing: 0.21px;
   margin: 0;
@@ -28,7 +28,7 @@ p {
 
 span#meeting-finder {
   font-family: "Lora-Bold";
-  font-size: 28px;
+  font-size: 20px;
   color: #FFFFFF;
   letter-spacing: 7px;
 }
