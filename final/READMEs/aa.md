@@ -19,7 +19,8 @@ The [data query](https://github.com/ryanabest/data-structures/blob/master/final/
 
 These mile and distance values are passed into the query itself so it only returns the meetings that match the given timeframe in the locations that match the given location constraints, ensuring we're querying the minimum amount of data needed to display only relevant meetings and locations.
 
-The query returns one row per geolocation with a nested structure containing information about each location within a geolocation, each meeting within that location, and the schedule within each meeting that matches our time and location constraints:
+The query returns one row per geolocation that matches our location constraint with a nested structure containing information about each location within a geolocation, each meeting within that location, and the schedule within each meeting that matches our time constraint:
+
 ![Sample query JSON response showing the nested data structure][aaJSON]
 
 [aaJSON]: images/aaJSON.png "Sample query JSON response showing the nested data structure"
@@ -32,7 +33,7 @@ First, each geolocation returned in our query is mapped to an individual marker 
 
 [aa1]: images/aa1.png "Default interface view"
 
-Information about the location(s), meeting(s), and schedule(s) at each meeting are mapped to a pop-out pane accessible via clicking on a individual marker. Hovering on a specific meeting geolocation changes our mouse to a pointer, prompting a click on that location. This click will highlight the selected map marker and bring up a pop-out side pane, which displays a text list providing (in order of hierarchical presentation):
+Information about the location(s), meeting(s), and schedule(s) at each meeting are mapped to a pop-out which is accessible after clicking on a individual marker. Hovering on a specific meeting geolocation changes our mouse to a pointer, prompting a click on that location. This click will highlight the selected map marker and bring up the pop-out side pane, which displays a text list providing (in order of hierarchical presentation):
 + Location name, address, and address details
 + Meeting name, meeting type
 + Meeting schedule within timeframe provided
@@ -42,7 +43,7 @@ Information about the location(s), meeting(s), and schedule(s) at each meeting a
 
 [aa2]: images/aa2.png "Pop-out side panel interface view"
 
-The pop-out side pane also provides a back-arrow to close this detail and return to the default map view. The interaction design for the pop-out pane was based on Google Maps.
+The pop-out side pane also provides a back-arrow to hide this detail view and return to the default map view.
 
 ## Next Steps
 + Add meeting type and current location search to the filtering capabilities, allowing users to narrow query results to more relevant meetings and personalizing results for any user location
@@ -51,4 +52,4 @@ The pop-out side pane also provides a back-arrow to close this detail and return
   + That hierarchy is adequately portrayed in the text design of the side panel
   + The closing of the side panel to unselect the current location is intuitive
 + Add color legend for map markers
-+ Add time color scheme (darker markers have meetings happening sooner) and allow users to switch color scheme is being applied
++ Add time color scheme (darker markers have meetings happening sooner) and allow users to change which color scheme is being applied

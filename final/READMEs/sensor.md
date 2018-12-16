@@ -18,23 +18,23 @@ I'm measuring the inside temperature in my windowsill using a [Particle Photon K
 
 ![Particle set-up][particle]
 
-[particle]: images/particle.jpg "Particle set-up"
+[particle]: images/particle.JPG "Particle set-up"
 
-I connect to the Particle API and log the value from the temperature sensor every 30 seconds, writing a new row into a PostgreSQL table that includes the time logged (__last handshake at__ variable) and temperature (__analogvalue__ variable, in degrees &#8451;), along with other extraneous data that is part of the standard API response from Particle, for example:
+I connect to the Particle API and log the value from the temperature sensor every 30 seconds, writing a new row into a PostgreSQL table that includes the time logged (__last heard__ variable) and temperature (__analogvalue__ variable, in &#8451;), along with other extraneous data that is part of the standard API response from Particle, for example:
 
-name | result | last_heard | last_handshake_at | device_id | product_id | date_added
+name | result | last_heard
 --- | --- | --- | --- | --- | --- | ---
-analogvalue |	16.564102564102555 | 2018-12-15 16:13:06 | 2018-12-15 15:55:07 |	25003f000947373034353237 | 6 |2018-12-15 16:13:06
-analogvalue |	0.7692307692307665 |	2018-12-15 16:12:36 | 2018-12-15 15:55:07 | 25003f000947373034353237 | 6	| 2018-12-15 16:12:36
-analogvalue |	20.43223443223443 |	2018-12-15 16:12:06 | 2018-12-15 15:55:07 | 25003f000947373034353237 | 6	| 2018-12-15 16:12:06
-analogvalue |	20.512820512820518 |	2018-12-15 16:11:36 | 2018-12-15 15:55:07 | 25003f000947373034353237 | 6	| 2018-12-15 16:11:36
-analogvalue |	33.245421245421234 |	2018-12-15 16:11:06 | 2018-12-15 15:55:07 | 25003f000947373034353237 | 6 | 2018-12-15 16:11:06
+analogvalue |	16.564102564102555 | 2018-12-15 16:13:06
+analogvalue |	0.7692307692307665 |	2018-12-15 16:12:36
+analogvalue |	20.43223443223443 |	2018-12-15 16:12:06
+analogvalue |	20.512820512820518 |	2018-12-15 16:11:36
+analogvalue |	33.245421245421234 |	2018-12-15 16:11:06
 
 This process that runs the [script](https://github.com/ryanabest/data-structures/blob/master/week9/particle.js) to collect and log this response from Particle on a 30-second cadence is implemented using [PM2](http://pm2.keymetrics.io/) and [AWS EC2](https://aws.amazon.com/ec2/).
 
 #### Outside Temperature
 
-I've also set up a [Heroku](https://github.com/ryanabest/ds-particle-heroku) app that uses the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) tool to execute a [script](https://github.com/ryanabest/ds-particle-heroku/blob/master/darksky.js) that connects to Darksky's API using the lat/lon coordinates of my specific home address in Brooklyn. This API provides both hourly weather (including the air temperature in &#8451; that hour) and daily weather summaries (including high and low temperatures in &#8451; for that day). I am currently writing almost all weather statistics returned from this API to a PostgreSQL table, which includes weather summary (clear / partly cloudy / etc), precipitation (probability and type), cloud cover / UV index, apparent temperature, and more (the [Darksky API docs](https://darksky.net/dev/docs#time-machine-request) have extensive lists of the data fields returned from this "time machine" API). I run this script every night at 12:30 AM, which pulls both daily and hourly weather data from the previous day (e.g. if this script runs on Dec 15th, 12:30 AM, it will pull data from Dec 14th, 2018).
+I've also set up a [Heroku](https://github.com/ryanabest/ds-particle-heroku) app that uses the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) tool to execute a [script](https://github.com/ryanabest/ds-particle-heroku/blob/master/darksky.js) that connects to Darksky's API using the lat/lon coordinates of my specific home address in Brooklyn. This API provides both hourly weather (including the air temperature in &#8451; that hour) and daily weather summaries (including high and low temperatures in &#8451; for that day). I am currently writing almost all weather statistics returned from this API to two separate PostgreSQL tables, one with hourly data and one for daily data. The statistics I'm writing to these tables includes weather summary (clear / partly cloudy / etc), precipitation (probability and type), cloud cover / UV index, apparent temperature, and more (the [Darksky API docs](https://darksky.net/dev/docs#time-machine-request) have extensive lists of the data fields returned from this "time machine" API). Right now, I only use the hourly table and I only use the temperature value from this table in my visualization, so I only pull that column from the database in my query (more on this below). I run this script every night at 12:30 AM, which pulls both daily and hourly weather data from the previous day (e.g. if this script runs on Dec 15th, 12:30 AM, it will pull data from Dec 14th, 2018).
 
 ### Reading Data
 
@@ -58,26 +58,28 @@ My visualization implements a [difference](https://flowingdata.com/charttype/dif
 
 ![Sensor1][Sensor1]
 
-[Sensor1]: images/Sensor1.png "Sensor1"
+[Sensor1]: images/sensor1.png "Sensor1"
 
 ...with a hover-over interaction that allows users to see the specific inside temperature, outside temperature, and difference between the two at any point in the timeframe visualized.
 
 ![Sensor2][Sensor2]
 
-[Sensor2]: images/Sensor2.png "Sensor2"
+[Sensor2]: images/sensor2.png "Sensor2"
 
 The data that is pulled from the query above therefore needs to be bound to a few different visual elements in my visualization, all of which were implemented using d3:
 
 + Inside temperature across all hours is bound to the top line
 + Outside temperature across all hours is bound to the bottom line
-+ Temperature differences for each hour are bound to individual bars – I create one bar for each hour with an x/y coordinate based on the inside temperature and a height based on the difference between the inside/outside temperature
++ Temperature differences for each hour are bound to individual bars – I create one bar for each hour with a y coordinate based on the inside temperature, an x coordinate based on the date/hour, and a height based on the difference between the inside/outside temperature
 + I also created a rectangle that spans the entire svg but has no background to implement the hover capabilities:
-  + When the user moves their mouse in this invisible rectangle, I convert the x-position of their mouse to the specific hour they're hovering over
-  + I then bind the inside temperature to a dotted circle and the outside temperature to another dotted circle to highlight the specific point on each line the user is hovering over
+  + When the user moves their mouse in this 'invisible' rectangle, I convert the x-position of their mouse to the specific hour they're hovering over
+  + I then bind the inside temperature for that hour to a dotted circle and the outside temperature to another dotted circle to highlight the specific point on each line the user is hovering over
   + Finally, the date, hour, inside temperature, outside temperature, temperature difference (all in both &#8451; and &#8457;), and "estimated" status of the inside temperature are all used to create text elements in a "tooltip" div
     + The position of this tooltip div is based on the position of the mouse itself
 
 ## Next Steps
 + Add some text to provide a narrative before the visualization itself to tee up what the user will be looking at
 + Pick out points that are particularly interesting and provide context behind them (maybe a good use for scrollytelling)
-+ Implement some kind of lower bound for the dates included, since this would continue to expand and expand. Maybe that last month of data? Have it user controlled? For now I'll just need to see how the visualization looks after I cut the sensor off (unless I want to keep it running after this course ends)
++ Add more of the external weather statistics for that hour or day to the hover-over tooltip
++ Change the run time of my Darksky API call to load data at the beginning of a day instead of the end so the visualization shows data up through the current hour instead of through yesterday
++ Implement some kind of lower bound for the dates included, since this would continue to expand and expand. Maybe only show the last month of data? Have it user controlled? For now I'll just need to see how the visualization looks after I cut the sensor off (unless I want to keep it running after this course ends) and see if I need to remove any data at that point.
