@@ -156,7 +156,7 @@
               tooltipText.select("#tooltip-h1").html(moment(new Date(d.date_stamp)).format("MMM Do, YYYY h:mm a"));
               tooltipText.select("#tooltip-inside").html("<i>Inside Temp"+insideEst+":</i> " + d.inside_temp.toFixed(2)+ "&#176;C / " + celToFar(d.inside_temp).toFixed(2) + "&#176;F");
               tooltipText.select("#tooltip-outside").html("<i>Outside Temp:</i> " + d.outside_temp.toFixed(2)+ "&#176;C / " + celToFar(d.outside_temp).toFixed(2) + "&#176;F");
-              tooltipText.select("#tooltip-diff").html("<i>Difference:</i> " + d.temp_diff.toFixed(2)+ "&#176;C / " + celToFar(d.temp_diff).toFixed(2) + "&#176;F");
+              tooltipText.select("#tooltip-diff").html("<i>Difference:</i> " + d.temp_diff.toFixed(2)+ "&#176;C / " + (celToFar(d.inside_temp)-celToFar(d.outside_temp)).toFixed(2) + "&#176;F");
 
               // CIRCLES
               d3.select("#hover-circle-top").attr("cx",x(new Date(d.date_stamp))).attr("cy",yCel(d.inside_temp));
