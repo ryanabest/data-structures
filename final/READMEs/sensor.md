@@ -83,3 +83,8 @@ The data that is pulled from the query above therefore needs to be bound to a fe
 + Add more of the external weather statistics for that hour or day to the hover-over tooltip
 + Change the run time of my Darksky API call to load data at the beginning of a day instead of the end so the visualization shows data up through the current hour instead of through yesterday
 + Implement some kind of lower bound for the dates included, since this would continue to expand and expand. Maybe only show the last month of data? Have it user controlled? For now I'll just need to see how the visualization looks after I cut the sensor off (unless I want to keep it running after this course ends) and see if I need to remove any data at that point.
++ Address the inconsistent, buggy results I've been getting from my sensor since 12.13.18 (likely involving capping the project date at 12.12.18)
+
+![EveryValueSpread][EveryValueSpread]
+
+[EveryValueSpread]: images/EveryValueSpread.png "EveryValueSpread"
