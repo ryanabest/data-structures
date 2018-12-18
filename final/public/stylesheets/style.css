@@ -1,8 +1,14 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Roboto Mono";
+  font-size: 32px;
 }
 
 a {
   color: #00B7FF;
+}
+
+a:hover {
+  color: #e8e8e8;
+  transition: 0.5s;
 }
