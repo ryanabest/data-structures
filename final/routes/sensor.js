@@ -55,23 +55,19 @@ function sensorQuery() {
      ,date_part('hour',d.datetime)::int as hour
      ,date_trunc('hour',d.datetime) as date_stamp, *
     FROM darksky_hour d)
-
     , AVERAGES as (
     SELECT * FROM (
-    SELECT date_trunc('hour',last_heard) as trunc_hour, date_trunc('day',last_heard) as day, date_part('hour',last_heard) as hour, COUNT(*) as count, avg(result) as avg_temp
+    SELECT date_trunc('hour',last_heard) as trunc_hour, date_trunc('day',last_heard) as day, date_part('hour',last_heard) as hour, COUNT(*) as count, avg(result) as avg_temp, stddev(result) as stddev_temp
     from particle_temperature
-    group by 1,2,3 ) A WHERE COUNT >= 20 )
-
+    group by 1,2,3 ) A WHERE COUNT >= 20 and stddev_temp/avg_temp <= .4 )
     , AVERAGES_STEPS as (
     SELECT
        *
-      ,trunc_hour - interval '1h' * COALESCE((date_part('hour',trunc_hour - LAG(trunc_hour,1) OVER ())-1),0) as start_trunc_hour
-      ,COALESCE(date_part('hour',trunc_hour - LAG(trunc_hour,1) OVER ()),1) as hours_to_next_reading
-      ,COALESCE((LAG(avg_temp,1) over () - avg_temp) / date_part('hour',trunc_hour - LAG(trunc_hour,1) OVER ()),0) avg_increase
+      ,COALESCE(LAG(trunc_hour,1) OVER (ORDER BY trunc_hour ASC) + interval '1h',trunc_hour) as start_trunc_hour
+      ,COALESCE((EXTRACT(EPOCH from trunc_hour - LAG(trunc_hour,1) OVER (ORDER BY trunc_hour ASC)) / 3600),0) as hours_to_next_reading
+      ,COALESCE((LAG(avg_temp,1) OVER (ORDER BY trunc_hour ASC) - avg_temp) / (EXTRACT(EPOCH from trunc_hour - LAG(trunc_hour,1) OVER (ORDER BY trunc_hour ASC)) / 3600),0) as avg_increase
     FROM AVERAGES
     )
-
-
     , DARKSKY as (
       select
          date_trunc('day',datetime) as day
@@ -79,15 +75,16 @@ function sensorQuery() {
         ,temperature
       from darksky_hour
     )
-
     , HOURLY as (
       SELECT
          d.day
         ,d.hour
         ,d.date_stamp as date_stamp
-        ,a.avg_temp + (a.avg_increase * CASE WHEN d.date_stamp = a.trunc_hour THEN 0 ELSE a.hours_to_next_reading + date_part('hour',d.date_stamp - a.trunc_hour) END) as inside_temp
+        ,a.avg_temp + (a.avg_increase * CASE WHEN d.date_stamp = a.trunc_hour THEN 0 ELSE (EXTRACT(EPOCH from (date_stamp + interval '1h') - start_trunc_hour) / 3600) END) as inside_temp
         ,y.temperature as outside_temp
-        ,CASE WHEN d.date_stamp = a.trunc_hour THEN 0 ELSE a.hours_to_next_reading + date_part('hour',d.date_stamp - a.trunc_hour) END as multiplier
+        ,a.start_trunc_hour
+        ,a.hours_to_next_reading
+        ,CASE WHEN d.date_stamp = a.trunc_hour THEN 0 ELSE (EXTRACT(EPOCH from (date_stamp + interval '1h') - start_trunc_hour) / 3600) END as multiplier
         ,a.avg_increase
         ,CASE WHEN d.date_stamp = a.trunc_hour THEN 0 ELSE 1 end as estimated
       FROM DATES d
