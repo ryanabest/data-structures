@@ -3,6 +3,7 @@ const router = express.Router();
 const { Client } = require('pg');
 const defaultHours = 48;
 const defaultMiles = 2;
+const moment = require('moment');
 
 // AWS Connection
 function createClient() {
@@ -74,14 +75,15 @@ router.post('/', function(req, res) {
 module.exports = router;
 
 function aaQuery(hours,miles) {
+  let now = moment.utc(new Date()).local().format('YYYY-MM-DD HH:mm:ss');
   let query = `
   WITH TODAY as (
     SELECT
        TRIM(UPPER(to_char(the_day, 'day'))) as day
       ,min(date_trunc('minute',the_day)::time) as earliest_time
       ,max(date_trunc('minute',the_day)::time) as latest_time
-    FROM generate_series(CURRENT_TIMESTAMP
-                       ,CURRENT_TIMESTAMP + INTERVAL '`+hours+` hours'
+    FROM generate_series('`+now+`'::TIMESTAMP
+                       ,'`+now+`'::TIMESTAMP + INTERVAL '`+hours+` hours'
                        , interval  '1 minute') the_day
     GROUP BY TRIM(UPPER(to_char(the_day, 'day')))
     )
