@@ -2,7 +2,7 @@
   "name": "data-structures",
   "version": "1.0.0",
   "description": "data-structures fall 2018",
-  "main": "index.js",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "gulp watch"
@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/ryanabest/data-structures#readme",
   "dependencies": {
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.5",
     "console.table": "^0.10.0",
     "express": "^4.16.4",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sass": "^4.0.1",
     "nodemailer": "^4.6.8",
-    "pm2": "^3.2.2"
+    "pm2": "^3.5.1"
   },
   "devDependencies": {
     "async": "^2.6.1",
