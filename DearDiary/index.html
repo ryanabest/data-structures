@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets//diary/diary.css' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+  </head>
+  <body>
+    <div id="buttons">
+      {{{buttons}}}
+    </div>
+    <div id="diary-list" class="diary-list">
+      <div id="diary-title" class="diary-title">
+        <h1>Diary of Envy</h1>
+        <h2>As I continue to follow more and more data visualization publications, designers, and developers, my twitter feed has become a never-ending bombardment of projects that I wish I'd done.
+            So, I decided to keep track of examples that caused me to loose countless time staring at my computer screen and pestering all my friends and coworkers about <b>how cool this is!</b>
+            This running list has just a small subset of the visualizations and portfolios that provide me equal parts inspiration and rampant jealousy, that continually influence my own personal style, and help define what I think is possible with data visualization storytelling and reporting&nbsp;on&nbsp;the&nbsp;web.</h2>
+      </div>
+    </div>
+    <script>
+    let diaryData = [];
+    {{{diary}}}
+    let diaryDiv = document.getElementById("diary-list");
+    diaryData.forEach( (entry,i) => {
+
+      // INITIALIZE HTML
+      let innerHTML = "<hr><div class='diary-entry' id='diary-entry-" + i + "'>";
+      innerHTML += "<h1 class='entry-title'>"+entry.name.S+"</h1>";
+
+      let info = entry.info.M;
+
+      // AUTHOR(S)
+      if (info.author) {
+        let authors = "<h2 class='author' id='author-"+i+"'>by "
+        if (Object.keys(info.author)[0] === "SS") {
+          for (let a=0;a<info.author.SS.length;a++) {
+            if (a!==info.author.SS.length-1) { authors += info.author.SS[a] + ', '}
+            else { authors += 'and ' + info.author.SS[a] }
+          }
+        } else if (Object.keys(info.author)[0] === "S") {
+          authors += info.author.S;
+        };
+        authors += '</h2>';
+        innerHTML += authors;
+      };
+
+      // PUBLICATION
+      if (info.publication) { innerHTML += "<h2 class='publication' id ='publication-"+i+"'>" + info.publication.S.toUpperCase() + "</h2>" }
+
+      // PICTURE
+      if (info.picture) {
+        if (Object.keys(info.picture)[0] === "SS") { innerHTML += "<img class='preview-img' id='preview-img-"+i+"' src='" + info.picture.SS[0] + "'/>" }
+        else { innerHTML += "<img class='preview-img' id='preview-img-"+i+"' src='" + info.picture.S + "'/>" };
+      }
+
+      if (info.image) {
+        if (Object.keys(info.image)[0] === "SS") { innerHTML += "<img class='preview-img' id='preview-img-"+i+"' src='" + info.image.SS[0] + "'/>" }
+        else { innerHTML += "<img class='preview-img' id='preview-img-"+i+"' src='" + info.image.S + "'/>" };
+      }
+
+      // MY THOUGHTS
+      if (info.thoughts) {
+        if (Object.keys(info.thoughts)[0] === "L") { innerHTML += "<p class='thoughts' id='thoughts-"+i+"'>" + info.thoughts.L[0].S + "</p>" }
+        // else { innerHTML += "<p class='thoughts' id='thoughts-'"+i+"'>" + info.thoughts.S + "</p>" };
+      }
+
+      if (info.link) { innerHTML += "<p><a class='project-link' id='project-link-"+i+"' href='"+info.link.S+"'>See it -></a><p>"}
+
+      if (info.social) {innerHTML += "<p><a class='twitter-link' id='twitter-link-"+i+"' href='"+info.social.S+"'><i class='fab fa-twitter'></i></a></p>"}
+
+      innerHTML += "</div>";
+      diaryDiv.innerHTML += innerHTML;
+    });
+    // let diaryDiv = document.getElementById("diary-list");
+    // diaryDiv.innerHTML = "<div></div>";
+    </script>
+  </body>
+</html>

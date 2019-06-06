@@ -17,7 +17,7 @@ class vizEntry {
 init();
 
 function init() {
-  // let vizEntries = loadNYTFacesOfDiversity();
+  let vizEntries = loadNYTFacesOfDiversity();
   // let vizEntries = loadHumanTerrian();
   // let vizEntries = bloombergMidtermCartogram();
   // let vizEntries = recordNumberOfWomen();
@@ -26,7 +26,8 @@ function init() {
   // let vizEntries = loadStaticAndPortfolioEntries();
   // let vizEntries = loadTruthAndBeauty();
   // let vizEntries = loadInteractivesOne();
-  let vizEntries = loadInteractivesTwo();
+  // let vizEntries = loadInteractivesTwo();
+  // let vizEntries = loadYearInWeather();
   // console.log(vizEntries);
   loadEntries(vizEntries);
 }
@@ -111,6 +112,28 @@ function loadInteractivesTwo() {
   return vizEntries;
 }
 
+function loadYearInWeather() {
+  let vizEntries = [];
+
+  vizEntries.push (new vizEntry(
+    "How Much Warmer Was Your City in 2017?",
+    new Date("2018-11-29 20:00"),
+    "interactive viz",
+    {
+      publication: {S: "New York Times"},
+      author: {S: "K.K. Rebecca Lai"},
+      link: {S: "https://www.nytimes.com/interactive/2018/01/21/world/year-in-weather.html#nyc"},
+      picture: {S: "https://raw.githubusercontent.com/ryanabest/data-structures/master/week5/examples/year-in-weather.png"},
+      tags: {SS: ["weather","classic","dense"]},
+      thoughts: {L: [
+        {S: "This reworking of the classic NYT graphic is still one of the more data dense visualizations I've ever seen, containing record high/low temps, normal high/low temps, actual high/low temps, and monthly precipitation all in one graphic. The subtle animations go a long way as well – the moving globe and object permanance of the visualization make for a really nice interative experience."}
+      ]}
+    }
+  ));
+
+  return vizEntries;
+}
+
 function loadInteractivesOne() {
   let vizEntries = [];
 
@@ -143,22 +166,6 @@ function loadInteractivesOne() {
       link: {S: "wapo.st/busy-sky"},
       thoughts: { L: [
         {S: "This project maps how commercial rocket launches cause airlines to divert their paths, which causes delays in air traffic and increases fuel consumption, in a really compelling 3-D animation of individual flights around a specific SpaceX launch off the coast of Florida. The panning zoom in and out of the globe on scroll and animated flight paths / rocket launch paths is super successful in both telling this specific story and thoroughly impressing me from both a technology and design standpoint."}
-      ]}
-    }
-  ));
-
-  vizEntries.push (new vizEntry(
-    "How Much Warmer Was Your City in 2017?",
-    new Date("2018-11-29 20:00"),
-    "interactive viz",
-    {
-      publication: {S: "New York Times"},
-      author: {S: "K.K. Rebecca Lai"},
-      link: {S: "https://www.nytimes.com/interactive/2018/01/21/world/year-in-weather.html#nyc"},
-      picture: {S: "https://pbs.twimg.com/card_img/1070631277546668034/RKSbCx6i?format=jpg&name=600x314"},
-      tags: {SS: ["weather","classic","dense"]},
-      thoughts: {L: [
-        {S: "This reworking of the classic NYT graphic is still one of the more data dense visualizations I've ever seen, containing record high/low temps, normal high/low temps, actual high/low temps, and monthly precipitation all in one graphic. The subtle animations go a long way as well – the moving globe and object permanance of the visualization make for a really nice interative experience."}
       ]}
     }
   ));
@@ -449,7 +456,7 @@ function loadNYTFacesOfDiversity() {
       tags: {SS:["politics","election2018","scrollytelling"]},
       pubDate: {S: new Date("October 31, 2018").toDateString()},
       social: {S: "https://twitter.com/nytgraphics/status/1057667207809978368"},
-      picture: {S: "https://pbs.twimg.com/card_img/1070609566008832000/_d22dQK1?format=jpg&name=600x314"},
+      picture: {S: "https://raw.githubusercontent.com/ryanabest/data-structures/master/week5/examples/FacesOfChange.png"},
       thoughts: {L: [
         { S: "The use of candidates' faces as individual data points that stack up as parts of a whole is a really inventive and effective method for this piece. This mechanism allows the differences (or similarities) between skin tones, genders, and styles to become visually apparent as we compare subsets of the candidate pool - showing exactly the mechanisms this piece hopes to portray. Additionally, as groups become smaller in number, the faces of candidates in these groups become bigger and clearer, allowing us to physically see who it is that is challenging the status quo and representing the fight for inclusiveness in politics."}
         ,{ S: "The animation really helps us get a sense of scale as the statistics and groups we look at change."}

@@ -8,6 +8,13 @@ module.exports = {
     instances: 1,
     autorestart: true,
     watch: false,
+    env: {
+      NODE_ENV: 'development',
+      AWS_PW: 'meSDzeJ8HjwtSFuAnF',
+      DARKSKY: 'f9bce033285c1507e96e615fc74b2090',
+      GMAIL: 'pgfblzeowjlewhvn',
+      PARTICLE: 'ea996992c1eb911e6957355685d8616115cc76b2'
+    },
     env_production: {
       NODE_ENV: 'production'
     }
@@ -22,7 +29,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'https://github.com/ryanabest/data-structures.git',
       path : '/home/ec2-user/www/data-structures',
-      'post-deploy' : 'cd week9 && nvm install 6.10.3 && npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy' : "cd week9 && nvm install 6.10.3 && npm install && npm install pm2 -g && export NODE_ENV='development' && export AWS_PW='meSDzeJ8HjwtSFuAnF' && export DARKSKY='f9bce033285c1507e96e615fc74b2090' && export GMAIL='pgfblzeowjlewhvn' && export PARTICLE='ea996992c1eb911e6957355685d8616115cc76b2' && pm2 reload ecosystem.config.js --env production"
     }
   }
 };
