@@ -27,7 +27,7 @@
     "pm2": "^3.5.1"
   },
   "devDependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "aws-sdk": "^2.332.0",
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.11",
