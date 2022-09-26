@@ -24,7 +24,7 @@
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.1",
     "nodemailer": "^4.6.8",
-    "pm2": "^3.5.1"
+    "pm2": "^5.2.0"
   },
   "devDependencies": {
     "async": "^2.6.1",
